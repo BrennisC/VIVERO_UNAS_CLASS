@@ -5,9 +5,9 @@
 #include "Abono.h"
 #include "Client.h"
 #include "Plants.h"
+#include "Login.h"
+
 using namespace std;
-// @brief contraseña para poder ingresar al menu
-const string CORRECT_PASSWORD = "vivero_unas2024";
 void gotoxy(int x, int y)
 {
     COORD coord;
@@ -15,6 +15,7 @@ void gotoxy(int x, int y)
     coord.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+
 // Función para obtener la posición vertical del cursor
 int obtenerPosicionVerticalCursor()
 {
@@ -41,13 +42,7 @@ void centrarTexto(const string &texto)
     cout << texto;
     gotoxy(0, obtenerPosicionVerticalCursor() + 1); // Restaurar la posición vertical del cursor
 }
-/// @brief Funcion para poder ingresar al menu de opciones
-bool verifyPassword(string password)
-{
-    while (password != CORRECT_PASSWORD)
-    {
-    }
-}
+
 void opcion1()
 {
 
@@ -57,6 +52,7 @@ void opcion1()
     system("cls");
     BusquedaEnlazadaPlants();
 }
+
 /// @brief Funcion para ingresar a la class Abono
 void opcion2()
 {
@@ -66,6 +62,7 @@ void opcion2()
     system("cls");
     BusquedaEnlazadaAbono();
 }
+
 /// @brief Funcion para ingresar a la class Client
 void opcion3()
 {
@@ -75,6 +72,7 @@ void opcion3()
     system("cls");
     BusquedaEnlazadaClient();
 }
+
 /// @warning Funcion para salir de sistema
 void ExitSystem()
 {
@@ -83,18 +81,36 @@ void ExitSystem()
     cout << ". ";
     exit(0);
 }
+
+// Crear un sistema de registro para los trabajadores del vivero UNAS
+void AccederLogin();
+
+// Para poder accerder a las class
 void MenuVivero();
-// Funcion principal
+
 int main()
 {
     setlocale(LC_ALL, "es_ES.UTF-8"); // Establece el locale a español
-    string text_verify;
+
+    AccederLogin();
+
     MenuVivero();
     return 0;
 }
+
+void AccederLogin()
+{
+    LoginUser lu;
+    lu.registerUser();
+
+    saveTxt st;
+    cout << st.saveUser(lu);
+}
+
 void MenuVivero()
 {
     char opc;
+
     do
     {
         system("cls");
@@ -106,6 +122,7 @@ void MenuVivero()
         cout << endl;
         centrarTexto("Ingrese su opcion: ");
         cin >> opc;
+
         switch (opc)
         {
         case '1':

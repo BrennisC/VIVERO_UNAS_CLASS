@@ -14,35 +14,43 @@ public:
     Client() : name_client(), ID() {}
     // Funcion  para registrar cliente
     void RegistryClient();
+
     // Funcion para ver a los clientes registrados
     void ShowClient();
+
     // Funcion para guardar en un archivo TXT
     void SaveClient();
+
     // Funcion para cargar el TXT
     void LoadClient();
+
     // Funcion para agrupar los metodos de cliente
     friend void BusquedaEnlazadaClient();
 };
+
 void Client ::RegistryClient()
 {
     int cantidad;
     cout << "Ingrese la cantidad de personas: ";
     cin >> cantidad;
     cin.ignore();
-    for (int i = 0; i < cantidad; i++)
+
+        for (int i = 0; i < cantidad; i++)
     {
         // variable para el nombre del cliente al ingresar
         string name;
         cout << "Ingrese el nombre del cliente: ";
         getline(cin, name);
         name_client.push_back(name);
-        // variabble para el DNI del cliente
+
+        // variable para el DNI del cliente
         string name_DNI;
         cout << "Ingrese el DNI del cliente: ";
         getline(cin, name_DNI);
         ID.push_back(name_DNI);
     }
 }
+
 // Funcion para ver los clientes
 void Client ::ShowClient()
 {
@@ -54,6 +62,7 @@ void Client ::ShowClient()
     }
     system("pause");
 }
+
 void Client::SaveClient()
 {
     ofstream file("Client.txt", ios::out);
@@ -76,6 +85,7 @@ void Client::SaveClient()
     system("pause");
     system("cls");
 }
+
 void Client ::LoadClient()
 {
     ifstream file("Client.txt");
@@ -95,10 +105,12 @@ void Client ::LoadClient()
     system("pause");
     system("cls");
 }
+
 void BusquedaEnlazadaClient()
 {
     char choice;
     Client cl;
+
     do
     {
         cout << "[1]REGRISTRO DE CLIENTE\n";
@@ -108,6 +120,7 @@ void BusquedaEnlazadaClient()
         cout << "[5]VOLVER AL MENU PRINCIPAL\n";
         cout << "INGRESE SU OPCION: \n\n";
         cin.getline(&choice, 4);
+
         switch (choice)
         {
         case '1':

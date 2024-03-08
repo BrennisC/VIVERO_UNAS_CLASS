@@ -12,14 +12,18 @@ private:
 
 public:
     Plants() : name_plants(), quantityplants(), price_plants() {}
+
     vector<string> getname_plants() { return name_plants; }
     vector<int> getquantityplants() { return quantityplants; }
     vector<float> getprice_plants() { return price_plants; }
+
     // Registro de plantas para el sistema de la vivero UNAS
     void RegistryPlants();
+
     // Funcion para agrupar todos los metodos
     friend void BusquedaEnlazadaPlants();
 };
+
 void Plants::RegistryPlants()
 {
     int cantidad;
@@ -32,10 +36,12 @@ void Plants::RegistryPlants()
         cout << "Ingrese el nombre de la planta: ";
         getline(cin, name);
         name_plants.push_back(name);
+
         float prc;
         cout << "Ingrese el precio de la planta: ";
         cin >> prc;
         price_plants.push_back(prc);
+
         int cantidad;
         cout << "Ingrese la cantidad de plantas: ";
         cin >> cantidad;
@@ -49,6 +55,7 @@ void Plants::RegistryPlants()
     }
     system("cls");
 }
+
 // Clase  para mostrar lo registrado en el registro de plants
 class ShowPlantas
 {
@@ -63,6 +70,7 @@ public:
         }
     }
 };
+
 // Clase para guardar los archivos en txt
 class SavePlantas
 {
@@ -89,6 +97,7 @@ public:
         }
     }
 };
+
 // Clase para guardar en el txt
 class LoadPlants
 {
@@ -113,6 +122,7 @@ public:
         system("cls");
     }
 };
+
 // Agrupar a las clase de los distintos datos de busqueda
 void BusquedaEnlazadaPlants()
 {
@@ -121,6 +131,7 @@ void BusquedaEnlazadaPlants()
     SavePlantas sap;
     LoadPlants ld;
     Plants pl;
+
     do
     {
         cin.ignore();
@@ -130,6 +141,7 @@ void BusquedaEnlazadaPlants()
         cout << "[4]VOLVER AL SISTEMA: \n";
         cout << "INGRESE UNA OPCION: \n\n";
         cin.getline(&choice, 4);
+
         switch (choice)
         {
         case '1':
