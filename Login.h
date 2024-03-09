@@ -10,7 +10,7 @@ class PasswordGenerator
 public:
     static string generatePassword(int length)
     {
-        static const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!";
+        static const string chars = "unas2024";
         static random_device rd;
         static mt19937 gen(rd());
 

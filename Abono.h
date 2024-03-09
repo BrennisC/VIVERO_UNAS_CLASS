@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <conio.h>
+#include <fstream>
 using namespace std;
 class Abono
 {
@@ -46,7 +47,6 @@ void Abono::RegistarFertilizan()
     }
 }
 
-// Metodo que guardara las plantas en un archivo .txt
 // CLASE PARA MOSTRAR LOS ELEMENTOS REGISTRADOS
 class ShownFertilizan
 {
@@ -62,16 +62,69 @@ public:
     }
 };
 
+class SaveFertilizan
+{
+public:
+    static void saveFile(Abono &ab)
+    {
+        ofstream file("Abono.txt", ios::out | ios::app);
+        if (file.is_open())
+        {
+            size_t size = ab.getNombre_Fertilizan().size();
+            for (size_t i = 0; i < size; i++)
+            {
+                file << "REGISTRO DE ABONO : ";
+                file << "\nNOMBRE DEL FERTILIZANTE : " << ab.getNombre_Fertilizan()[i];
+                file << "\nPRECIO DEL FERTILIZANTE : " << ab.getPrice_Fertilizan()[i];
+                file << "\n\n";
+            }
+            file.close();
+        }
+        else
+        {
+            cout << "Error no se pudo guardar el archivo. ";
+        }
+    }
+};
+
+class loadFertilizan
+{
+public:
+    static void loadfile(Abono &ab)
+    {
+        ifstream file("Abono.txt");
+        if (file.is_open())
+        {
+            string line;
+            while (getline(file, line))
+            {
+                cout << line << endl;
+            }
+            file.close();
+        }
+        else
+        {
+            cout << "Nose encrontro el archivo. " << endl;
+        }
+        system("pause");
+        system("cls");
+    }
+};
 void BusquedaEnlazadaAbono()
 {
     char choice;
     Abono ab;
     ShownFertilizan sf;
+    SaveFertilizan sfe;
+    loadFertilizan lf;
+
     do
     {
         cin.ignore();
         cout << "[1]REGISTRAR EL ABONO: \n";
         cout << "[2]MOSTRAR ABONO: \n";
+        cout << "[3]VER EN EL TXT: \n";
+        cout << "[4]VOLVER AL MENU PRINCIPAL \n";
         cout << "INGRESAR UNA OPCION: \n";
         cin.getline(&choice, 3);
         switch (choice)
@@ -84,16 +137,21 @@ void BusquedaEnlazadaAbono()
         case '2':
             system("cls");
             sf.shown(ab);
+            sfe.saveFile(ab);
             getchar();
             break;
 
         case '3':
-            cout << "saliendo...";
+            system("cls");
+            lf.loadfile(ab);
             break;
-
+        case '4':
+            system("cls");
+            cout << "Volviendo al menu principal. ";
+            break;
         default:
             cout << "Ocpion no valida intentalo de nuevo ";
             break;
         }
-    } while (choice != '3');
+    } while (choice != '4');
 }

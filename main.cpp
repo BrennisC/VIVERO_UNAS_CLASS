@@ -103,7 +103,6 @@ void exitSystem()
 }
 
 // Para poder accerder a las class
-
 void menuVivero();
 
 int main()
@@ -121,7 +120,7 @@ int main()
         cout << RED << "¡No dudes en preguntarnos cualquier cosa!" << RESET << endl;
 
         centrarTexto("1. Registrar nuevo usuario");
-        centrarTexto("2. Iniciar sesión         ");
+        centrarTexto("2. Iniciar sesión        ");
         centrarTexto("3. Salir                 ");
         centrarTexto("Ingrese su opción: ");
         cin >> choice;
@@ -135,10 +134,15 @@ int main()
             cout << "Ingrese su nombre: ";
             cin.ignore();
             getline(cin, name);
-            string password = PasswordGenerator::generatePassword(9);
+
+            string password = PasswordGenerator::generatePassword(4);
             cout << "Su contraseña generada es: " << password << "\n";
             users.emplace_back(name, password);
             FileManager::saveUsers(users);
+
+            Sleep(5000);
+            getchar();
+            system("cls");
             break;
         }
         case '2':
