@@ -30,6 +30,7 @@ void Plants::RegistryPlants()
     cout << "Ingrese la cantidad de plantas: ";
     cin >> cantidad;
     cin.ignore();
+
     for (int i = 0; i < cantidad; i++)
     {
         string name;
@@ -42,16 +43,16 @@ void Plants::RegistryPlants()
         cin >> prc;
         price_plants.push_back(prc);
 
-        int cantidad;
+        int cantidad_plants;
         cout << "Ingrese la cantidad de plantas: ";
-        cin >> cantidad;
-        while (cantidad <= 0)
+        cin >> cantidad_plants;
+        while (cantidad_plants <= 0)
         {
             cout << "Error, debe ser mayor a cero.\n";
             cout << "Ingrese la cantidad de plantas: ";
-            cin >> cantidad;
+            cin >> cantidad_plants;
         }
-        quantityplants.push_back(cantidad);
+        quantityplants.push_back(cantidad_plants);
     }
     system("cls");
 }
@@ -63,6 +64,7 @@ public:
     static void showfile(Plants &pl)
     {
         size_t size = pl.getname_plants().size();
+
         for (size_t i = 0; i < size; i++)
         {
             cout << "Nombre: " << pl.getname_plants()[i] << endl;
@@ -78,10 +80,12 @@ public:
     static void savefile(Plants &pl)
     {
         ofstream file("Plantas.txt", ios::out | ios::app);
+
         if (file.is_open())
         {
             file << "Datos de las plantas registradas: " << endl;
             size_t size = pl.getname_plants().size();
+
             for (size_t i = 0; i < size; i++)
             {
                 file << "------------------------------------------------------\n";
@@ -127,10 +131,10 @@ public:
 void BusquedaEnlazadaPlants()
 {
     char choice;
+    Plants pl;
     ShowPlantas sp;
     SavePlantas sap;
     LoadPlants ld;
-    Plants pl;
 
     do
     {
@@ -148,6 +152,7 @@ void BusquedaEnlazadaPlants()
             system("cls");
             pl.RegistryPlants();
             break;
+
         case '2':
             system("cls");
             sp.showfile(pl);
@@ -155,13 +160,16 @@ void BusquedaEnlazadaPlants()
             system("pause");
             system("cls");
             break;
+
         case '3':
             system("cls");
             ld.loadfile(pl);
             break;
+
         case '4':
             cout << "Volviendo al menu principal... ";
             break;
+
         default:
             cout << "Opcion no valida.";
             system("pause");

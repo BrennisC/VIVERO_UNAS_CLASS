@@ -7,6 +7,14 @@
 #include "Plants.h"
 #include "Login.h"
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define BOLD "\033[1m"
+#define UNDERLINE "\033[4m"
+
 using namespace std;
 void gotoxy(int x, int y)
 {
@@ -39,7 +47,16 @@ void centrarTexto(const string &texto)
     int longitudTexto = texto.length();
     int posicionX = (anchoVentana - longitudTexto) / 2;
     gotoxy(posicionX, obtenerPosicionVerticalCursor());
-    cout << texto;
+    cout << BLUE << YELLOW << texto;
+    gotoxy(0, obtenerPosicionVerticalCursor() + 1); // Restaurar la posición vertical del cursor
+}
+void centrarTexto1(const string &texto)
+{
+    int anchoVentana = obtenerAnchoConsola();
+    int longitudTexto = texto.length();
+    int posicionX = (anchoVentana - longitudTexto) / 2;
+    gotoxy(posicionX, obtenerPosicionVerticalCursor());
+    cout << GREEN << BOLD << texto << RESET;
     gotoxy(0, obtenerPosicionVerticalCursor() + 1); // Restaurar la posición vertical del cursor
 }
 
@@ -50,6 +67,7 @@ void opcion1()
     centrarTexto("Ha seleccionado la Opcion 1.");
     Sleep(3000);
     system("cls");
+    BOLD;
     BusquedaEnlazadaPlants();
 }
 
@@ -60,6 +78,7 @@ void opcion2()
     centrarTexto("Ha seleccionado la Opcion 2.");
     Sleep(3000);
     system("cls");
+    BOLD;
     BusquedaEnlazadaAbono();
 }
 
@@ -67,58 +86,119 @@ void opcion2()
 void opcion3()
 {
     system("cls");
-    cout << "Ha seleccionado la Opcion 3." << endl;
+    centrarTexto("Ha seleccionado la Opcion 3.");
     Sleep(3000);
     system("cls");
+    BOLD;
     BusquedaEnlazadaClient();
 }
 
 /// @warning Funcion para salir de sistema
-void ExitSystem()
+void exitSystem()
 {
-    cout << "Saliendo de sistema...";
+    cout << RED << BOLD << "Saliendo de sistema...";
     Sleep(500);
     cout << ". ";
     exit(0);
 }
 
-// Crear un sistema de registro para los trabajadores del vivero UNAS
-void AccederLogin();
-
 // Para poder accerder a las class
-void MenuVivero();
+
+void menuVivero();
 
 int main()
 {
     setlocale(LC_ALL, "es_ES.UTF-8"); // Establece el locale a español
 
-    AccederLogin();
+    vector<LoginUser> users;
+    char choice;
 
-    MenuVivero();
+    do
+    {
+        centrarTexto1("VIVERO UNAS ");
+        cout << BLUE << "¡Bienvenidos a nuestro vivero!" << RESET << endl;
+        cout << YELLOW << UNDERLINE << "Estamos aquí para ayudarte." << RESET << endl;
+        cout << RED << "¡No dudes en preguntarnos cualquier cosa!" << RESET << endl;
+
+        centrarTexto("1. Registrar nuevo usuario");
+        centrarTexto("2. Iniciar sesión         ");
+        centrarTexto("3. Salir                 ");
+        centrarTexto("Ingrese su opción: ");
+        cin >> choice;
+
+        switch (choice)
+        {
+        case '1':
+        {
+            system("cls");
+            string name;
+            cout << "Ingrese su nombre: ";
+            cin.ignore();
+            getline(cin, name);
+            string password = PasswordGenerator::generatePassword(9);
+            cout << "Su contraseña generada es: " << password << "\n";
+            users.emplace_back(name, password);
+            FileManager::saveUsers(users);
+            break;
+        }
+        case '2':
+        {
+            system("cls");
+            string name, password;
+            cout << "Ingrese su nombre: ";
+            cin.ignore();
+            getline(cin, name);
+            cout << "Ingrese su contraseña: ";
+            getline(cin, password);
+
+            try
+            {
+                auto userList = FileManager::loadUsers();
+                bool found = false;
+                for (const auto &user : userList)
+                {
+                    if (user.getName() == name && user.getPassword() == password)
+                    {
+                        cout << "Inicio de sesión exitoso\n";
+                        found = true;
+                        menuVivero();
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    cout << "Nombre de usuario o contraseña incorrectos\n";
+                }
+            }
+            catch (const exception &e)
+            {
+                cerr << "Error: " << e.what() << "\n";
+            }
+
+            break;
+        }
+        case '3':
+            break;
+        default:
+            cout << "Opción no válida. Intente de nuevo.\n";
+        }
+    } while (choice != '3');
+
     return 0;
 }
 
-void AccederLogin()
-{
-    LoginUser lu;
-    lu.registerUser();
-
-    saveTxt st;
-    cout << st.saveUser(lu);
-}
-
-void MenuVivero()
+void menuVivero()
 {
     char opc;
 
     do
     {
         system("cls");
-        centrarTexto("MENU DE OPCIONES");
-        centrarTexto("[1] MENU DE PLANTA");
-        centrarTexto("[2] MENU DE ABONO");
-        centrarTexto("[3] MENU DE CLIENTE");
-        centrarTexto("[4] SALIR MENU PRINCIPAL");
+        centrarTexto1("     MENU DE OPCIONES         \n\n");
+        centrarTexto(" [1] MENU DE PLANTA       ");
+        centrarTexto(" [2] MENU DE ABONO        ");
+        centrarTexto(" [3] MENU DE CLIENTE      ");
+        centrarTexto(" [4] SALIR MENU PRINCIPAL ");
         cout << endl;
         centrarTexto("Ingrese su opcion: ");
         cin >> opc;
@@ -129,18 +209,22 @@ void MenuVivero()
             system("cls");
             opcion1();
             break;
+
         case '2':
             system("cls");
             opcion2();
             break;
+
         case '3':
             system("cls");
             opcion3();
             break;
+
         case '4':
             system("cls");
-            ExitSystem();
+            exitSystem();
             break;
+
         default:
             system("cls");
             cout << "Opcion no valida" << endl;

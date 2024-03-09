@@ -1,99 +1,77 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <cstdlib>
-#include <time.h>
 #include <fstream>
+#include <random>
 using namespace std;
+// Clase para generar contraseñas aleatorias
+class PasswordGenerator
+{
+public:
+    static string generatePassword(int length)
+    {
+        static const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!";
+        static random_device rd;
+        static mt19937 gen(rd());
+
+        string password(length, '\0');
+        uniform_int_distribution<> dis(0, chars.size() - 1);
+        for (int i = 0; i < length; ++i)
+        {
+            password[i] = chars[dis(gen)];
+        }
+        return password;
+    }
+};
+
+// Clase para manejar usuarios
 class LoginUser
 {
+public:
+    LoginUser(const string &name, const string &password)
+        : name(name), password(password) {}
+
+    const string &getName() const { return name; }
+    const string &getPassword() const { return password; }
+
 private:
-    vector<string> nombre;
-    vector<string> correo_institucional;
-    vector<int> id;
-    vector<string> contrasena;
-
-public:
-    LoginUser() = default;
-    void registerUser();
-    vector<string> getNombre() { return nombre; }
-    vector<string> getcorreo_institucional() { return correo_institucional; }
-    vector<int> getid() { return id; }
-    vector<string> getcontrasena() { return contrasena; }
+    string name;
+    string password;
 };
 
-// GenerarContraseñasAutomaticas
-class GenerarContasenasAutomaticas
+// Clase para manejar operaciones de archivo
+class FileManager
 {
 public:
-    static string generarContrasena(int longitud)
+    static void saveUsers(const vector<LoginUser> &users)
     {
-        const string caracteresPermitidos = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!";
-        string contrasena;
-
-        srand(time(nullptr));
-
-        for (int i = 0; i < longitud; ++i)
+        ofstream file("Users.txt", ios::out);
+        if (!file)
         {
-            int indice = rand() % caracteresPermitidos.length();
-            contrasena += caracteresPermitidos[indice];
+            throw runtime_error("Error al abrir el archivo Users.txt");
         }
 
-        return contrasena;
-    }
-};
-// Verificar si el usuario se encuentra en el txt para poder iniciar  sesión o registrarse
-
-void LoginUser ::registerUser()
-{
-    for (int i = 0; i < 2; i++)
-    {
-        int numero_aletorio = rand() % 300 + 1;
-        string name_user, correo, contrasena_actual;
-
-        cout << "Ingrese su nombre para el registro: \n";
-        getline(cin, name_user);
-        nombre.push_back(name_user);
-
-        cout << "Ingrese su direccion de correo institucional: \n";
-        getline(cin, correo);
-        correo_institucional.push_back(correo);
-
-        cout << "Id: " << numero_aletorio << endl;
-
-        cout << "Ingrese su contraseña: " << endl;
-        GenerarContasenasAutomaticas gr;
-        contrasena_actual = gr.generarContrasena(9);
-        cout << contrasena_actual << endl;
-        contrasena.push_back(contrasena_actual);
-    }
-}
-class saveTxt
-{
-public:
-    static string saveUser(LoginUser &usuarios)
-    {
-        size_t size = usuarios.getNombre().size();
-        ofstream file("Users.txt");
-        if (file.is_open())
+        for (const auto &user : users)
         {
-            for (size_t i = 0; i < size; i++)
-            {
-                file << "NOOMBRE : " << usuarios.getNombre()[i];
-                file << " CORREO VIVERO: " << usuarios.getcorreo_institucional()[i];
-                file << " ID: " << usuarios.getid()[i];
-                file << " CONTRASEÑA: " << usuarios.getcontrasena()[i];
-                file << "\n";
-            }
-            file.close();
+            file << user.getName() << " " << user.getPassword() << "\n";
         }
-        else
-        {
-            cout << "Error guardar en el txt " << endl;
-        }
-        return "Usuario Guardado Correctamente!";
     }
-};
-class verifyUser
-{
+
+    static vector<LoginUser> loadUsers()
+    {
+        vector<LoginUser> users;
+        ifstream file("Users.txt");
+        if (!file)
+        {
+            throw runtime_error("Error al abrir el archivo Users.txt");
+        }
+
+        string name, password;
+        while (file >> name >> password)
+        {
+            users.emplace_back(name, password);
+        }
+
+        return users;
+    }
 };

@@ -21,12 +21,6 @@ public:
     // Registro de plantas para el sistema de la vivero UNAS
     void RegistarFertilizan();
 
-    // Guardar los plantas en un TXT
-    void SaveFertilizan();
-
-    // Cargar para ver en el TXT
-    void LoadFertilizan();
-
     // Funcion para agrupar todos los metodos
     friend void BusquedaEnlazadaAbono();
 };
@@ -86,14 +80,17 @@ void BusquedaEnlazadaAbono()
             system("cls");
             ab.RegistarFertilizan();
             break;
+
         case '2':
             system("cls");
             sf.shown(ab);
             getchar();
             break;
+
         case '3':
             cout << "saliendo...";
             break;
+
         default:
             cout << "Ocpion no valida intentalo de nuevo ";
             break;

@@ -12,17 +12,12 @@ private:
 
 public:
     Client() : name_client(), ID() {}
+
+    vector<string> getname_client() { return name_client; }
+    vector<string> getID() { return ID; }
+
     // Funcion  para registrar cliente
     void RegistryClient();
-
-    // Funcion para ver a los clientes registrados
-    void ShowClient();
-
-    // Funcion para guardar en un archivo TXT
-    void SaveClient();
-
-    // Funcion para cargar el TXT
-    void LoadClient();
 
     // Funcion para agrupar los metodos de cliente
     friend void BusquedaEnlazadaClient();
@@ -35,7 +30,7 @@ void Client ::RegistryClient()
     cin >> cantidad;
     cin.ignore();
 
-        for (int i = 0; i < cantidad; i++)
+    for (int i = 0; i < cantidad; i++)
     {
         // variable para el nombre del cliente al ingresar
         string name;
@@ -51,73 +46,89 @@ void Client ::RegistryClient()
     }
 }
 
-// Funcion para ver los clientes
-void Client ::ShowClient()
+class shownClient
 {
-    cout << "Datos registrados de los clientes: ";
-    for (size_t i = 0; i < name_client.size(); i++)
+public:
+    static void showData(Client &cl)
     {
-        cout << "CLIENTE: " << name_client[i] << " DNI : " << ID[i] << endl;
-        cout << "-----------------------------" << endl;
-    }
-    system("pause");
-}
+        size_t size = cl.getname_client().size();
+        cout << "Datos registrados de los clientes: ";
 
-void Client::SaveClient()
-{
-    ofstream file("Client.txt", ios::out);
-    if (file.is_open())
-    {
-        for (size_t i = 0; i < name_client.size(); i++)
+        for (size_t i = 0; i < size; i++)
         {
-            file << "------REGISTRO-------";
-            file << "Nombre:" << name_client[i] << endl;
-            file << "DNI: " << ID[i] << endl;
-            file << "--------------------------\n";
+            cout << "CLIENTE: " << cl.getname_client()[i] << " DNI : " << cl.getID()[i] << endl;
+            cout << "-----------------------------" << endl;
         }
-        file.close();
+        system("pause");
     }
-    else
-    {
-        cout << "No se pudo abrir el archivo." << endl;
-    }
-    cout << "Se a guardo correctamento los datos. ";
-    system("pause");
-    system("cls");
-}
+};
 
-void Client ::LoadClient()
+class saveClient
 {
-    ifstream file("Client.txt");
-    if (file.is_open())
+public:
+    static void saveData(Client &cl)
     {
-        string line;
-        while (getline(file, line))
+        size_t size = cl.getname_client().size();
+        ofstream file("Client.txt", ios::out);
+
+        if (file.is_open())
         {
-            cout << line << endl;
+            file << "---------DATOS REGISTRATOS----------" << endl;
+            for (size_t i = 0; i < size; i++)
+            {
+                file << "NOMBRE " << cl.getname_client()[i] << " ID: " << cl.getID()[i] << endl;
+                file << "--------------------------" << endl;
+            }
+            file.close();
         }
-        file.close();
+        else
+        {
+            cout << "No se pudo abrir el archivo. " << endl;
+        }
+        cout << "Se a guardo correctamento los datos. ";
+        system("pause");
+        system("cls");
     }
-    else
+};
+
+class loadClient
+{
+public:
+    static void loadData(Client &cl)
     {
-        cout << "No se pudo abrir el archivo de cliente.\n";
+        ifstream file("Client.txt");
+        if (file.is_open())
+        {
+            string line;
+            while (getline(file, line))
+            {
+                cout << line << endl;
+            }
+            file.close();
+        }
+        else
+        {
+            cout << "No se pudo abrir el archivo de cliente.\n";
+        }
+        system("pause");
+        system("cls");
     }
-    system("pause");
-    system("cls");
-}
+};
 
 void BusquedaEnlazadaClient()
 {
     char choice;
     Client cl;
+    shownClient sc;
+    saveClient svc;
+    loadClient ldc;
 
     do
     {
         cout << "[1]REGRISTRO DE CLIENTE\n";
         cout << "[2]MOSTRAR CLIENTE\n";
-        cout << "[3]GUARDAR EN EL TXT\n";
-        cout << "[4]VER EL TXT\n";
-        cout << "[5]VOLVER AL MENU PRINCIPAL\n";
+        cout << "[3]VER EL TXT\n";
+        cout << "[4]VOLVER AL MENU PRINCIPAL\n";
         cout << "INGRESE SU OPCION: \n\n";
         cin.getline(&choice, 4);
 
@@ -127,24 +138,27 @@ void BusquedaEnlazadaClient()
             system("cls");
             cl.RegistryClient();
             break;
+
         case '2':
             system("cls");
-            cl.ShowClient();
+            sc.showData(cl);
+            svc.saveData(cl);
+            system("cls");
             break;
+
         case '3':
             system("cls");
-            cl.SaveClient();
+            ldc.loadData(cl);
             break;
+
         case '4':
             system("cls");
-            cl.LoadClient();
-            break;
-        case '5':
             cout << "Saliendo del menu...";
             break;
+
         default:
             cout << "Opcion no valida. ";
             break;
         }
-    } while (choice != '5');
+    } while (choice != '4');
 }
