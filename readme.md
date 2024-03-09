@@ -14,10 +14,11 @@ El sistema de registro del vivero UNAS está diseñado para facilitar la gestió
 
 Autenticación de usuarios: Control de acceso mediante un sistema de autenticación de usuarios con diferentes roles y permisos
 
-Registro de plantas: Registrar y mantener información detallada sobre las especies de plantas disponibles en el vivero, incluyendo su nombre científico, nombre común, descripción, requerimientos de cultivo y stock.
+Registro de plantas: Registrar y mantener información detallada sobre las especies de plantas disponibles en el vivero,i ncluyendo su nombre, precio y stock.
 
-Registro de abonos: Gestionar el inventario de abonos y productos relacionados con la jardinería, incluyendo su nombre, descripción, precio y stock.
-Registro de clientes: Mantener un registro de los clientes del vivero, incluyendo sus datos personales, historial de compras y preferencias.
+Registro de abonos: Gestionar el inventario de abonos y productos relacionados con la jardinería, incluyendo su nombre, precio y stock.
+
+Registro de clientes: Mantener un registro de los clientes del vivero, incluyendo sus datos personales.
 
 Gestión de ventas: Procesar las ventas de plantas, abonos y otros productos, generar facturas y llevar un registro de las transacciones.
 
