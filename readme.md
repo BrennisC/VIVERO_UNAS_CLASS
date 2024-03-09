@@ -33,5 +33,4 @@ Clona este repositorio en tu máquina local.
 Asegúrate de tener instalado un compilador de C++.
 [msys2](https://www.msys2.org/docs/updating/)
 
-Configura la conexión a la base de datos en el archivo config.cpp.
 Compila y ejecuta el programa principal main.cpp.
