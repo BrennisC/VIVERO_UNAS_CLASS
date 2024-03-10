@@ -32,6 +32,6 @@ Lenguaje de programación: C++
 
 Clona este repositorio en tu máquina local.
 Asegúrate de tener instalado un compilador de C++.
-[msys2](https://www.msys2.org/docs/updating/)
+[msys2](https://www.msys2.org/)
 
 Compila y ejecuta el programa principal main.cpp.
