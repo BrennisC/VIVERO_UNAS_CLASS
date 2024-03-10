@@ -16,6 +16,7 @@
 #define UNDERLINE "\033[4m"
 
 using namespace std;
+
 void gotoxy(int x, int y)
 {
     COORD coord;
@@ -41,7 +42,7 @@ int obtenerAnchoConsola()
 }
 
 // Función para centrar texto horizontalmente en la consola
-void centrarTexto(const string &texto)
+void centrarTexto1(const string &texto)
 {
     int anchoVentana = obtenerAnchoConsola();
     int longitudTexto = texto.length();
@@ -50,7 +51,7 @@ void centrarTexto(const string &texto)
     cout << BLUE << YELLOW << texto;
     gotoxy(0, obtenerPosicionVerticalCursor() + 1); // Restaurar la posición vertical del cursor
 }
-void centrarTexto1(const string &texto)
+void centrarTexto2(const string &texto)
 {
     int anchoVentana = obtenerAnchoConsola();
     int longitudTexto = texto.length();
@@ -60,11 +61,20 @@ void centrarTexto1(const string &texto)
     gotoxy(0, obtenerPosicionVerticalCursor() + 1); // Restaurar la posición vertical del cursor
 }
 
+void centrarTexto3(const string &texto)
+{
+    int anchoVentana = obtenerAnchoConsola();
+    int longitudTexto = texto.length();
+    int posicionX = (anchoVentana - longitudTexto) / 2;
+    gotoxy(posicionX, obtenerPosicionVerticalCursor());
+    cout << BLUE << YELLOW << texto;
+}
+
 void opcion1()
 {
 
     system("cls");
-    centrarTexto("Ha seleccionado la Opcion 1.");
+    centrarTexto1("Ha seleccionado la Opcion 1.");
     Sleep(3000);
     system("cls");
     BOLD;
@@ -75,7 +85,7 @@ void opcion1()
 void opcion2()
 {
     system("cls");
-    centrarTexto("Ha seleccionado la Opcion 2.");
+    centrarTexto1("Ha seleccionado la Opcion 2.");
     Sleep(3000);
     system("cls");
     BOLD;
@@ -86,7 +96,7 @@ void opcion2()
 void opcion3()
 {
     system("cls");
-    centrarTexto("Ha seleccionado la Opcion 3.");
+    centrarTexto1("Ha seleccionado la Opcion 3.");
     Sleep(3000);
     system("cls");
     BOLD;
@@ -114,17 +124,16 @@ int main()
 
     do
     {
-        centrarTexto1("VIVERO UNAS ");
-        cout << BLUE << "¡Bienvenidos a nuestro vivero!" << RESET << endl;
+        centrarTexto2("VIVERO UNAS ");
+        cout << BLUE << "\n¡Bienvenidos a nuestro vivero!" << RESET << endl;
         cout << YELLOW << UNDERLINE << "Estamos aquí para ayudarte." << RESET << endl;
         cout << RED << "¡No dudes en preguntarnos cualquier cosa!" << RESET << endl;
 
-        centrarTexto("1. Registrar nuevo usuario");
-        centrarTexto("2. Iniciar sesión        ");
-        centrarTexto("3. Salir                 ");
-        centrarTexto("Ingrese su opción: ");
-        cin >> choice;
-
+        centrarTexto1("1. Registrar nuevo usuario");
+        centrarTexto1("2. Iniciar sesión        ");
+        centrarTexto1("3. Salir                  ");
+        centrarTexto3("Ingrese su opción: ");
+        cin.getline(&choice, '3');
         switch (choice)
         {
         case '1':
@@ -182,6 +191,7 @@ int main()
             break;
         }
         case '3':
+            cout << "Salir";
             break;
         default:
             cout << "Opción no válida. Intente de nuevo.\n";
@@ -198,13 +208,13 @@ void menuVivero()
     do
     {
         system("cls");
-        centrarTexto1("     MENU DE OPCIONES         \n\n");
-        centrarTexto(" [1] MENU DE PLANTA       ");
-        centrarTexto(" [2] MENU DE ABONO        ");
-        centrarTexto(" [3] MENU DE CLIENTE      ");
-        centrarTexto(" [4] SALIR MENU PRINCIPAL ");
+        centrarTexto2("     MENU DE OPCIONES         \n\n");
+        centrarTexto1(" [1] MENU DE PLANTA       ");
+        centrarTexto1(" [2] MENU DE ABONO        ");
+        centrarTexto1(" [3] MENU DE CLIENTE      ");
+        centrarTexto1(" [4] SALIR MENU PRINCIPAL ");
         cout << endl;
-        centrarTexto("Ingrese su opcion: ");
+        centrarTexto3("Ingrese su opcion: ");
         cin >> opc;
 
         switch (opc)

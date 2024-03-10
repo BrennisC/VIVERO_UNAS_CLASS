@@ -8,7 +8,7 @@ Este repositorio tiene el codigo para el registro del vivero de la facultad de A
 
 ## Descripción
 
-El sistema de registro del vivero UNAS está diseñado para facilitar la gestión de las actividades relacionadas con el cultivo y venta de plantas, abonos y otros productos del vivero. Este sistema cuenta con características como el registro de plantas, abonos, clientes, ventas y generación de reportes, todo ello con un sistema de autenticación de usuarios para garantizar la seguridad y el control de acceso.
+El sistema de registro del vivero UNAS está diseñado para facilitar la gestión de las actividades relacionadas con la venta de plantas. Este sistema cuenta con características como el registro de plantas, abonos, clientes, ventas y generación de reportes, todo ello con un sistema de autenticación de usuarios para garantizar la seguridad y el control de acceso.
 
 ## Características principales
 
