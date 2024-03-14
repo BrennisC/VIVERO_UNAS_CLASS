@@ -1,6 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <limits>
 #include <string>
 #include "Abono.h"
 #include "Client.h"
@@ -140,11 +141,13 @@ int main()
         {
             system("cls");
             string name;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
             cout << "Ingrese su nombre: ";
-            cin.ignore();
             getline(cin, name);
 
             string password = PasswordGenerator::generatePassword(4);
+
             cout << "Su contraseña generada es: " << password << "\n";
             users.emplace_back(name, password);
             FileManager::saveUsers(users);
@@ -158,8 +161,10 @@ int main()
         {
             system("cls");
             string name, password;
+
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
             cout << "Ingrese su nombre: ";
-            cin.ignore();
             getline(cin, name);
             cout << "Ingrese su contraseña: ";
             getline(cin, password);
