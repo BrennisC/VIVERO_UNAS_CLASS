@@ -4,6 +4,7 @@
 #include <fstream>
 
 using namespace std;
+const string FILEPLANTS = "Plants.txt";
 
 class BasicPlantDataHandler;
 void ModifyPlant(BasicPlantDataHandler &p);
@@ -60,7 +61,7 @@ void ModifyPlant(BasicPlantDataHandler &p)
     if (index < p.names.size())
     {
         cout << "Ingrese el nuevo nombre de la planta: ";
-        cin >> p.names[index];
+        getline(cin, p.names[index]);
 
         cout << "Ingrese la nueva cantidad de la planta: ";
         cin >> p.quantities[index];
@@ -72,6 +73,7 @@ void ModifyPlant(BasicPlantDataHandler &p)
     {
         cout << "Índice inválido. No se pudo modificar la planta." << endl;
     }
+    system("cls");
 }
 
 class PlantOperations
@@ -80,7 +82,7 @@ public:
     virtual void registerPlant(PlantDataHandler &plantDataHandler) = 0;
     virtual void showPlants(const PlantDataHandler &plantDataHandler) const = 0;
     virtual void savePlants(const PlantDataHandler &plantDataHandler) const = 0;
-    virtual void loadPlants(PlantDataHandler &plantDataHandler) = 0;
+    virtual void loadPlants() = 0;
     virtual void modifyPlant(BasicPlantDataHandler &plantDataHandler) = 0;
     virtual ~PlantOperations() {}
 };
@@ -95,8 +97,8 @@ public:
         float price;
 
         cout << "Ingrese el nombre de la planta: ";
-        cin >> name;
-        cout << "Ingrese la cantidad de plantas: ";
+        getline(cin, name);
+        cout << "Ingrese la cantidad de plantas de " << name << " que deseas: ";
         cin >> quantity;
         cout << "Ingrese el precio de la planta: ";
         cin >> price;
@@ -117,11 +119,12 @@ public:
             cout << "Cantidad: " << quantities[i] << endl;
             cout << "Precio: " << prices[i] << endl;
         }
+        system("cls");
     }
 
     void savePlants(const PlantDataHandler &plantDataHandler) const override
     {
-        ofstream file("Plantas.txt", ios::out);
+        ofstream file(FILEPLANTS, ios::out);
 
         if (file.is_open())
         {
@@ -137,17 +140,18 @@ public:
                 file << "Precio: " << prices[i] << endl;
                 file << "-----------------------------" << endl;
             }
-            cout << "Datos de las plantas guardados en 'Plantas.txt'" << endl;
+            cout << "Datos de las plantas guardados en 'FILEPLANTS'" << endl;
         }
         else
         {
-            cout << "Error al abrir el archivo 'Plantas.txt'." << endl;
+            cout << "Error al abrir el archivo 'FILEPLANTS'." << endl;
         }
+        system("cls");
     }
 
-    void loadPlants(PlantDataHandler &plantDataHandler) override
+    void loadPlants() override
     {
-        ifstream file("Plantas.txt");
+        ifstream file(FILEPLANTS);
         if (file.is_open())
         {
             string line;
@@ -159,7 +163,7 @@ public:
         }
         else
         {
-            cout << "No se pudo abrir el archivo 'Plantas.txt'." << endl;
+            cout << "No se pudo abrir el archivo 'FILEPLANTS'." << endl;
         }
     }
 
@@ -177,9 +181,9 @@ void LinkedSearchPlants()
 
     do
     {
-        cout << "[1] REGISTRO DE PLANTAS\n";
+        cout << "[1] REGISTRAR PLANTAS\n";
         cout << "[2] MOSTRAR PLANTAS\n";
-        cout << "[3] GUARDAR ARCHIVO\n";
+        cout << "[3] VER EN TXT PLANTAS\n";
         cout << "[4] MODIFICAR PLANTA\n";
         cout << "[5] VOLVER AL SISTEMA\n";
         cout << "INGRESE UNA OPCION: ";
@@ -195,10 +199,11 @@ void LinkedSearchPlants()
         case '2':
             system("cls");
             plantOperations.showPlants(plantDataHandler);
+            plantOperations.savePlants(plantDataHandler);
             break;
         case '3':
             system("cls");
-            plantOperations.savePlants(plantDataHandler);
+            plantOperations.loadPlants();
             break;
         case '4':
             system("cls");

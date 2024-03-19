@@ -4,6 +4,7 @@
 #include <fstream>
 
 using namespace std;
+const string FILECLIENT = "Client.txt";
 
 class ClientDataHandler
 {
@@ -37,27 +38,27 @@ public:
         return ID;
     }
 
-    friend void ModificarClient(BasicClientDataHandler &c);
+    friend void ModifyClient(BasicClientDataHandler &c);
 };
 
-void ModificarClient(BasicClientDataHandler &c)
+void ModifyClient(BasicClientDataHandler &c)
 {
     string nameModificable, idModificable;
 
     cout << "Ingrese el nombre del Cliente para modificar: ";
-    cin >> nameModificable;
+    getline(cin, nameModificable);
 
     cout << "Ingrese el DNI del cliente : ";
-    cin >> idModificable;
+    getline(cin, idModificable);
 
     for (size_t i = 0; i < c.name_client.size(); i++)
     {
         if ((idModificable == c.ID[i]) && (nameModificable == c.name_client[i]))
         {
             cout << "Ingrese el nuevo nombre del Cliente: ";
-            cin >> c.name_client[i];
+            getline(cin, c.name_client[i]);
             cout << "Ingrese el nuevo DNI del Cliente: ";
-            cin >> c.ID[i];
+            getline(cin, c.ID[i]);
             cout << "Cliente modificado correctamente." << endl;
             return;
         }
@@ -71,7 +72,7 @@ public:
     virtual void registry(ClientDataHandler &clientDataHandler) = 0;
     virtual void show(const ClientDataHandler &clientDataHandler) const = 0;
     virtual void save(const ClientDataHandler &clientDataHandler) const = 0;
-    virtual void load(ClientDataHandler &clientDataHandler) = 0;
+    virtual void load() = 0;
     virtual void modify(BasicClientDataHandler &clientDataHandler) = 0;
     virtual ~ClientOperations() {}
 };
@@ -84,12 +85,12 @@ public:
         string name, id;
 
         cout << "Ingrese el nombre del cliente: ";
-        cin >> name;
-
+        getline(cin, name);
         cout << "Ingrese el ID del cliente: ";
-        cin >> id;
+        getline(cin, id);
 
         clientDataHandler.addData(name, id);
+        system("cls");
     }
 
     void show(const ClientDataHandler &clientDataHandler) const override
@@ -103,6 +104,8 @@ public:
             cout << "CLIENTE: " << names[i] << " DNI : " << ids[i] << endl;
             cout << "-----------------------------" << endl;
         }
+        system("pause/null");
+        system("cls");
     }
 
     void save(const ClientDataHandler &clientDataHandler) const override
@@ -110,7 +113,7 @@ public:
         const vector<string> &names = clientDataHandler.getNameClient();
         const vector<string> &ids = clientDataHandler.getID();
 
-        ofstream file("Client.txt", ios::out);
+        ofstream file(FILECLIENT, ios::out);
         if (file.is_open())
         {
             file << "---------DATOS REGISTRATOS----------" << endl;
@@ -128,9 +131,9 @@ public:
         }
     }
 
-    void load(ClientDataHandler &clientDataHandler) override
+    void load() override
     {
-        ifstream file("Client.txt");
+        ifstream file(FILECLIENT);
         if (file.is_open())
         {
             string line;
@@ -148,11 +151,11 @@ public:
 
     void modify(BasicClientDataHandler &clientDataHandler) override
     {
-        ModificarClient(clientDataHandler);
+        ModifyClient(clientDataHandler);
     }
 };
 
-void BusquedaEnlazadaClient()
+void LinkedSearchClient()
 {
     char choice;
 
@@ -161,7 +164,7 @@ void BusquedaEnlazadaClient()
 
     do
     {
-        cout << "[1]REGISTRO DE CLIENTE\n";
+        cout << "[1]REGISTRAR DE CLIENTE\n";
         cout << "[2]MOSTRAR CLIENTE\n";
         cout << "[3]VER EL TXT\n";
         cout << "[4]MODIFICAR CLIENTE\n";
@@ -180,11 +183,12 @@ void BusquedaEnlazadaClient()
         case '2':
             system("cls");
             basicClientOperations.show(clientDataHandler);
+            basicClientOperations.save(clientDataHandler);
             break;
 
         case '3':
             system("cls");
-            basicClientOperations.load(clientDataHandler);
+            basicClientOperations.load();
             break;
 
         case '4':

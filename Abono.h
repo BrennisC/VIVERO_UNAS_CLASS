@@ -5,6 +5,9 @@
 
 using namespace std;
 
+// Constantes para mensajes
+const string FILENAME = "Abono.txt";
+
 // Clase para representar un abono
 class Abono
 {
@@ -14,132 +17,188 @@ private:
 
 public:
     Abono(const string &n, float p) : nombre(n), precio(p) {}
+
     const string &getNombre() const { return nombre; }
     float getPrecio() const { return precio; }
 
-    friend void ModifyAbono(Abono &ab);
+    friend ostream &operator<<(ostream &os, const Abono &abono);
 };
 
-// Clase para manejar el almacenamiento de datos de abonos
-class AbonoStorage
+ostream &operator<<(ostream &os, const Abono &abono)
 {
+    os << "Nombre: " << abono.getNombre() << ", Precio: " << abono.getPrecio();
+    return os;
+}
+
+// Repositorio de abonos
+class AbonoRepository
+{
+private:
+    vector<pair<string, float>> abonos;
+
 public:
-    static void saveAbonosToFile(const vector<Abono> &abonos, const string &filename)
+    void saveFertilizers() const
     {
-        ofstream file(filename);
-        if (file.is_open())
+        ofstream archivo(FILENAME);
+        if (archivo.is_open())
         {
             for (const auto &abono : abonos)
             {
-                file << "Nombre: " << abono.getNombre() << ", Precio: " << abono.getPrecio() << endl;
+                archivo << abono.first << " " << abono.second << endl;
             }
-            cout << "Abonos guardados en " << filename << endl;
+            cout << "Abonos guardados en " << FILENAME << endl;
         }
         else
         {
-            cout << "Error al abrir el archivo " << filename << endl;
+            cerr << "Error al abrir el archivo " << FILENAME << endl;
+        }
+        system("cls");
+    }
+
+    void loadFertilizers()
+    {
+        ifstream archivo(FILENAME);
+        if (archivo.is_open())
+        {
+            string nombre;
+            float precio;
+            while (archivo >> nombre >> precio)
+            {
+                abonos.push_back(make_pair(nombre, precio));
+            }
+            cout << "Abonos cargados desde " << FILENAME << endl;
+        }
+        else
+        {
+            cerr << "Error al abrir el archivo " << FILENAME << endl;
         }
     }
 
-    static void loadAbonosFromFile(vector<Abono> &abonos, const string &filename)
+    const vector<pair<string, float>> &getAbonos() const { return abonos; }
+
+    void agregarAbono(const string &nombre, float precio)
     {
-        abonos.clear();
-        ifstream file(filename);
-        if (file.is_open())
-        {
-            string name;
-            float price;
-            while (file >> name >> price)
-            {
-                Abono abono(name, price);
-                abonos.push_back(abono);
-            }
-            cout << "Abonos cargados desde " << filename << endl;
-        }
-        else
-        {
-            cout << "Error al abrir el archivo " << filename << endl;
-        }
+        abonos.push_back(make_pair(nombre, precio));
     }
 };
 
-// Clase para manejar la lógica de abonos
-class AbonoDataHandler
+// Manejador de operaciones de abonos
+class AbonoManager
 {
+private:
+    AbonoRepository *abonoRepository;
+
 public:
-    static void registerAbono(vector<Abono> &abonos)
+    AbonoManager(AbonoRepository *repo) : abonoRepository(repo) {}
+
+    void registrarAbono(const string &nombre, float precio)
     {
-        string name;
-        float price;
+        if (precio <= 0)
+        {
+            cerr << "El precio del abono debe ser mayor que cero." << endl;
+            return;
+        }
 
-        cout << "Ingrese el nombre del abono: ";
-        cin >> name;
-        cout << "Ingrese el precio del abono: ";
-        cin >> price;
-
-        Abono abono(name, price);
-        abonos.push_back(abono);
+        abonoRepository->agregarAbono(nombre, precio);
+        abonoRepository->saveFertilizers();
     }
 
-    static void showAbonos(const vector<Abono> &abonos)
+    void showFertilizers() const
     {
+        abonoRepository->loadFertilizers();
+        const vector<pair<string, float>> &abonos = abonoRepository->getAbonos();
         cout << "Lista de abonos: " << endl;
         for (const auto &abono : abonos)
         {
-            cout << "Nombre: " << abono.getNombre() << ", Precio: " << abono.getPrecio() << endl;
+            cout << "Nombre: " << abono.first << ", Precio: " << abono.second << endl;
         }
+        system("pause/null");
+        system("cls");
+    }
+
+    void modifyFertilizers()
+    {
+        string nombre;
+        float nuevoPrecio;
+        cout << "Ingrese el nombre del abono que desea modificar: ";
+        getline(cin, nombre);
+        cout << "Ingrese el nuevo precio del abono: ";
+        cin >> nuevoPrecio;
+
+        if (nuevoPrecio <= 0)
+        {
+            cerr << "El precio del abono debe ser mayor que cero." << endl;
+            return;
+        }
+
+        const vector<pair<string, float>> &abonos = abonoRepository->getAbonos();
+        for (auto &abono : abonos)
+        {
+            if (abono.first == nombre)
+            {
+                abono.second == nuevoPrecio;
+                abonoRepository->saveFertilizers();
+                cout << "Abono modificado correctamente." << endl;
+                return;
+            }
+        }
+
+        cout << "El abono '" << nombre << "' no fue encontrado." << endl;
+        system("cls");
     }
 };
-// Funcion amiga para modificar la Clase de abono
-void ModifyAbono(Abono &ab)
-{
-    string name_modify;
-    cout << "Ingrese el nombre de la planta: ";
-    getline(cin, name_modify);
 
-    /* for (size_t i = 0; i < ab.nombre.size(); i++)
-    {
-        if (ab.nombre[i] == name_modify)
-        {
-        }
-    } */
-}
-// Función para manejar las operaciones de abonos
 void LinkedSearchAbono()
 {
-    char choice;
-    vector<Abono> abonos;
+    AbonoRepository abonoRepository;
+    AbonoManager abonoManager(&abonoRepository);
 
+    char opcion;
     do
     {
-        cout << "[1] Registrar abono" << endl;
-        cout << "[2] Mostrar abonos" << endl;
-        cout << "[3] Guardar abonos en archivo" << endl;
-        cout << "[4] Cargar abonos desde archivo" << endl;
-        cout << "[5] Volver al menú principal" << endl;
-        cout << "Ingrese su opción: ";
-        cin >> choice;
+        cout << "[1] REGISTRAR ABONO " << endl;
+        cout << "[2] MOSTRAR ABONO " << endl;
+        cout << "[3] VER TXT DE ABONO " << endl;
+        cout << "[4] MODIFICAR ABONO " << endl;
+        cout << "[5] SALIR: " << endl;
+        cout << "INGRESA UNA OPCION: ";
+        cin >> opcion;
 
-        switch (choice)
+        switch (opcion)
         {
         case '1':
-            AbonoDataHandler::registerAbono(abonos);
+        {
+            system("cls");
+            string nombre;
+            float precio;
+            cout << "Ingrese el nombre del abono: ";
+            getline(cin, nombre);
+            cout << "Ingrese el precio del abono: ";
+            cin >> precio;
+            abonoManager.registrarAbono(nombre, precio);
             break;
+        }
         case '2':
-            AbonoDataHandler::showAbonos(abonos);
+            system("cls");
+            abonoManager.showFertilizers();
+            abonoRepository.saveFertilizers();
             break;
         case '3':
-            AbonoStorage::saveAbonosToFile(abonos, "abonos.txt");
+            system("cls");
+            abonoManager.modifyFertilizers();
             break;
         case '4':
-            AbonoStorage::loadAbonosFromFile(abonos, "abonos.txt");
+            system("cls");
+            abonoRepository.loadFertilizers();
             break;
         case '5':
-            cout << "Volviendo al menú principal..." << endl;
+            system("cls");
+            cout << "Volviendo al menu principal..." << endl;
             break;
         default:
+            system("cls");
             cout << "Opción no válida. Inténtalo de nuevo." << endl;
             break;
         }
-    } while (choice != '5');
+    } while (opcion != '4');
 }

@@ -101,7 +101,7 @@ void opcion3()
     Sleep(3000);
     system("cls");
     BOLD;
-    BusquedaEnlazadaClient();
+    LinkedSearchClient();
 }
 
 /// @warning Funcion para salir de sistema
@@ -141,6 +141,9 @@ int main()
         {
             system("cls");
             string name;
+
+            cout << "Aplaste enter para continuar \n";
+
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             cout << "Ingrese su nombre: ";
@@ -161,6 +164,8 @@ int main()
         {
             system("cls");
             string name, password;
+
+            cout << "Aplaste enter para continuar \n";
 
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
