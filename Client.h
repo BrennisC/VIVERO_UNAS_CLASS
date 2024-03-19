@@ -1,100 +1,134 @@
 #include <iostream>
-#include <stdlib.h>
 #include <string>
 #include <vector>
 #include <fstream>
+
 using namespace std;
-class Client
+
+class ClientDataHandler
+{
+public:
+    virtual void addData(const string &name, const string &id) = 0;
+    virtual const vector<string> &getNameClient() const = 0;
+    virtual const vector<string> &getID() const = 0;
+    virtual ~ClientDataHandler() {}
+};
+
+class BasicClientDataHandler : public ClientDataHandler
 {
 private:
     vector<string> name_client;
     vector<string> ID;
 
 public:
-    Client() : name_client(), ID() {}
+    void addData(const string &name, const string &id) override
+    {
+        name_client.push_back(name);
+        ID.push_back(id);
+    }
 
-    vector<string> getname_client() { return name_client; }
-    vector<string> getID() { return ID; }
+    const vector<string> &getNameClient() const override
+    {
+        return name_client;
+    }
 
-    // Funcion  para registrar cliente
-    void RegistryClient();
+    const vector<string> &getID() const override
+    {
+        return ID;
+    }
 
-    // Funcion para agrupar los metodos de cliente
-    friend void BusquedaEnlazadaClient();
+    friend void ModificarClient(BasicClientDataHandler &c);
 };
 
-void Client ::RegistryClient()
+void ModificarClient(BasicClientDataHandler &c)
 {
-    int cantidad;
-    cout << "Ingrese la cantidad de personas: ";
-    cin >> cantidad;
-    cin.ignore();
+    string nameModificable, idModificable;
 
-    for (int i = 0; i < cantidad; i++)
+    cout << "Ingrese el nombre del Cliente para modificar: ";
+    cin >> nameModificable;
+
+    cout << "Ingrese el DNI del cliente : ";
+    cin >> idModificable;
+
+    for (size_t i = 0; i < c.name_client.size(); i++)
     {
-        // variable para el nombre del cliente al ingresar
-        string name;
-        cout << "Ingrese el nombre del cliente: ";
-        getline(cin, name);
-        name_client.push_back(name);
-
-        // variable para el DNI del cliente
-        string name_DNI;
-        cout << "Ingrese el DNI del cliente: ";
-        getline(cin, name_DNI);
-        ID.push_back(name_DNI);
+        if ((idModificable == c.ID[i]) && (nameModificable == c.name_client[i]))
+        {
+            cout << "Ingrese el nuevo nombre del Cliente: ";
+            cin >> c.name_client[i];
+            cout << "Ingrese el nuevo DNI del Cliente: ";
+            cin >> c.ID[i];
+            cout << "Cliente modificado correctamente." << endl;
+            return;
+        }
     }
+    cout << "No se encontro el nombre y/o DNI ingresado." << endl;
 }
 
-class shownClient
+class ClientOperations
 {
 public:
-    static void showData(Client &cl)
-    {
-        size_t size = cl.getname_client().size();
-        cout << "Datos registrados de los clientes: ";
-
-        for (size_t i = 0; i < size; i++)
-        {
-            cout << "CLIENTE: " << cl.getname_client()[i] << " DNI : " << cl.getID()[i] << endl;
-            cout << "-----------------------------" << endl;
-        }
-        system("pause");
-    }
+    virtual void registry(ClientDataHandler &clientDataHandler) = 0;
+    virtual void show(const ClientDataHandler &clientDataHandler) const = 0;
+    virtual void save(const ClientDataHandler &clientDataHandler) const = 0;
+    virtual void load(ClientDataHandler &clientDataHandler) = 0;
+    virtual void modify(BasicClientDataHandler &clientDataHandler) = 0;
+    virtual ~ClientOperations() {}
 };
 
-class saveClient
+class BasicClientOperations : public ClientOperations
 {
 public:
-    static void saveData(Client &cl)
+    void registry(ClientDataHandler &clientDataHandler) override
     {
-        size_t size = cl.getname_client().size();
-        ofstream file("Client.txt", ios::out);
+        string name, id;
 
+        cout << "Ingrese el nombre del cliente: ";
+        cin >> name;
+
+        cout << "Ingrese el ID del cliente: ";
+        cin >> id;
+
+        clientDataHandler.addData(name, id);
+    }
+
+    void show(const ClientDataHandler &clientDataHandler) const override
+    {
+        const vector<string> &names = clientDataHandler.getNameClient();
+        const vector<string> &ids = clientDataHandler.getID();
+
+        cout << "Datos registrados de los clientes: " << endl;
+        for (size_t i = 0; i < names.size(); ++i)
+        {
+            cout << "CLIENTE: " << names[i] << " DNI : " << ids[i] << endl;
+            cout << "-----------------------------" << endl;
+        }
+    }
+
+    void save(const ClientDataHandler &clientDataHandler) const override
+    {
+        const vector<string> &names = clientDataHandler.getNameClient();
+        const vector<string> &ids = clientDataHandler.getID();
+
+        ofstream file("Client.txt", ios::out);
         if (file.is_open())
         {
             file << "---------DATOS REGISTRATOS----------" << endl;
-            for (size_t i = 0; i < size; i++)
+            for (size_t i = 0; i < names.size(); ++i)
             {
-                file << "NOMBRE " << cl.getname_client()[i] << " ID: " << cl.getID()[i] << endl;
+                file << "NOMBRE " << names[i] << " ID: " << ids[i] << endl;
                 file << "--------------------------" << endl;
             }
             file.close();
+            cout << "Se ha guardado correctamente los datos. ";
         }
         else
         {
             cout << "No se pudo abrir el archivo. " << endl;
         }
-        cout << "Se a guardo correctamento los datos. ";
-        system("pause");
-        system("cls");
     }
-};
 
-class loadClient
-{
-public:
-    static void loadData(Client &cl)
+    void load(ClientDataHandler &clientDataHandler) override
     {
         ifstream file("Client.txt");
         if (file.is_open())
@@ -110,48 +144,55 @@ public:
         {
             cout << "No se pudo abrir el archivo de cliente.\n";
         }
-        system("pause");
-        system("cls");
+    }
+
+    void modify(BasicClientDataHandler &clientDataHandler) override
+    {
+        ModificarClient(clientDataHandler);
     }
 };
 
 void BusquedaEnlazadaClient()
 {
     char choice;
-    Client cl;
-    shownClient sc;
-    saveClient svc;
-    loadClient ldc;
+
+    BasicClientDataHandler clientDataHandler;
+    BasicClientOperations basicClientOperations;
 
     do
     {
-        cout << "[1]REGRISTRO DE CLIENTE\n";
+        cout << "[1]REGISTRO DE CLIENTE\n";
         cout << "[2]MOSTRAR CLIENTE\n";
         cout << "[3]VER EL TXT\n";
-        cout << "[4]VOLVER AL MENU PRINCIPAL\n";
+        cout << "[4]MODIFICAR CLIENTE\n";
+        cout << "[5]VOLVER AL MENU PRINCIPAL\n";
         cout << "INGRESE SU OPCION: \n\n";
-        cin.getline(&choice, 4);
+        cin >> choice;
+        cin.ignore();
 
         switch (choice)
         {
         case '1':
             system("cls");
-            cl.RegistryClient();
+            basicClientOperations.registry(clientDataHandler);
             break;
 
         case '2':
             system("cls");
-            sc.showData(cl);
-            svc.saveData(cl);
-            system("cls");
+            basicClientOperations.show(clientDataHandler);
             break;
 
         case '3':
             system("cls");
-            ldc.loadData(cl);
+            basicClientOperations.load(clientDataHandler);
             break;
 
         case '4':
+            system("cls");
+            basicClientOperations.modify(clientDataHandler);
+            break;
+
+        case '5':
             system("cls");
             cout << "Saliendo del menu...";
             break;
@@ -160,5 +201,5 @@ void BusquedaEnlazadaClient()
             cout << "Opcion no valida. ";
             break;
         }
-    } while (choice != '4');
+    } while (choice != '5');
 }

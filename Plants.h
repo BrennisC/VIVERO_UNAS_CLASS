@@ -2,111 +2,150 @@
 #include <vector>
 #include <string>
 #include <fstream>
+
 using namespace std;
-class Plants
+
+class BasicPlantDataHandler;
+void ModifyPlant(BasicPlantDataHandler &p);
+
+class PlantDataHandler
+{
+public:
+    virtual void addPlant(const string &name, int quantity, float price) = 0;
+    virtual const vector<string> &getNames() const = 0;
+    virtual const vector<int> &getQuantities() const = 0;
+    virtual const vector<float> &getPrices() const = 0;
+    virtual ~PlantDataHandler() {}
+};
+
+class BasicPlantDataHandler : public PlantDataHandler
 {
 private:
-    vector<string> name_plants;
-    vector<int> quantityplants;
-    vector<float> price_plants;
+    vector<string> names;
+    vector<int> quantities;
+    vector<float> prices;
 
 public:
-    Plants() : name_plants(), quantityplants(), price_plants() {}
+    void addPlant(const string &name, int quantity, float price) override
+    {
+        names.push_back(name);
+        quantities.push_back(quantity);
+        prices.push_back(price);
+    }
 
-    vector<string> getname_plants() { return name_plants; }
-    vector<int> getquantityplants() { return quantityplants; }
-    vector<float> getprice_plants() { return price_plants; }
+    const vector<string> &getNames() const override
+    {
+        return names;
+    }
 
-    // Registro de plantas para el sistema de la vivero UNAS
-    void RegistryPlants();
+    const vector<int> &getQuantities() const override
+    {
+        return quantities;
+    }
 
-    // Funcion para agrupar todos los metodos
-    friend void BusquedaEnlazadaPlants();
+    const vector<float> &getPrices() const override
+    {
+        return prices;
+    }
+
+    friend void ModifyPlant(BasicPlantDataHandler &p);
 };
 
-void Plants::RegistryPlants()
+void ModifyPlant(BasicPlantDataHandler &p)
 {
-    int cantidad;
-    cout << "Ingrese la cantidad de plantas: ";
-    cin >> cantidad;
-    cin.ignore();
+    cout << "Ingrese el índice de la planta que desea modificar: ";
+    size_t index;
+    cin >> index;
 
-    for (int i = 0; i < cantidad; i++)
+    if (index < p.names.size())
     {
-        string name;
-        cout << "Ingrese el nombre de la planta: ";
-        getline(cin, name);
-        name_plants.push_back(name);
+        cout << "Ingrese el nuevo nombre de la planta: ";
+        cin >> p.names[index];
 
-        float prc;
-        cout << "Ingrese el precio de la planta: ";
-        cin >> prc;
-        price_plants.push_back(prc);
+        cout << "Ingrese la nueva cantidad de la planta: ";
+        cin >> p.quantities[index];
 
-        int cantidad_plants;
-        cout << "Ingrese la cantidad de plantas: ";
-        cin >> cantidad_plants;
-        while (cantidad_plants <= 0)
-        {
-            cout << "Error, debe ser mayor a cero.\n";
-            cout << "Ingrese la cantidad de plantas: ";
-            cin >> cantidad_plants;
-        }
-        quantityplants.push_back(cantidad_plants);
+        cout << "Ingrese el nuevo precio de la planta: ";
+        cin >> p.prices[index];
     }
-    system("cls");
+    else
+    {
+        cout << "Índice inválido. No se pudo modificar la planta." << endl;
+    }
 }
 
-// Clase  para mostrar lo registrado en el registro de plants
-class ShowPlantas
+class PlantOperations
 {
 public:
-    static void showfile(Plants &pl)
-    {
-        size_t size = pl.getname_plants().size();
-
-        for (size_t i = 0; i < size; i++)
-        {
-            cout << "Nombre: " << pl.getname_plants()[i] << endl;
-            cout << "Precio: $" << pl.getprice_plants()[i] * pl.getquantityplants()[i] << endl;
-        }
-    }
+    virtual void registerPlant(PlantDataHandler &plantDataHandler) = 0;
+    virtual void showPlants(const PlantDataHandler &plantDataHandler) const = 0;
+    virtual void savePlants(const PlantDataHandler &plantDataHandler) const = 0;
+    virtual void loadPlants(PlantDataHandler &plantDataHandler) = 0;
+    virtual void modifyPlant(BasicPlantDataHandler &plantDataHandler) = 0;
+    virtual ~PlantOperations() {}
 };
 
-// Clase para guardar los archivos en txt
-class SavePlantas
+class BasicPlantOperations : public PlantOperations
 {
 public:
-    static void savefile(Plants &pl)
+    void registerPlant(PlantDataHandler &plantDataHandler) override
     {
-        ofstream file("Plantas.txt", ios::out | ios::app);
+        string name;
+        int quantity;
+        float price;
+
+        cout << "Ingrese el nombre de la planta: ";
+        cin >> name;
+        cout << "Ingrese la cantidad de plantas: ";
+        cin >> quantity;
+        cout << "Ingrese el precio de la planta: ";
+        cin >> price;
+
+        plantDataHandler.addPlant(name, quantity, price);
+    }
+
+    void showPlants(const PlantDataHandler &plantDataHandler) const override
+    {
+        const vector<string> &names = plantDataHandler.getNames();
+        const vector<int> &quantities = plantDataHandler.getQuantities();
+        const vector<float> &prices = plantDataHandler.getPrices();
+
+        cout << "Datos de las plantas registradas: " << endl;
+        for (size_t i = 0; i < names.size(); ++i)
+        {
+            cout << "Nombre: " << names[i] << endl;
+            cout << "Cantidad: " << quantities[i] << endl;
+            cout << "Precio: " << prices[i] << endl;
+        }
+    }
+
+    void savePlants(const PlantDataHandler &plantDataHandler) const override
+    {
+        ofstream file("Plantas.txt", ios::out);
 
         if (file.is_open())
         {
-            file << "Datos de las plantas registradas: " << endl;
-            size_t size = pl.getname_plants().size();
+            const vector<string> &names = plantDataHandler.getNames();
+            const vector<int> &quantities = plantDataHandler.getQuantities();
+            const vector<float> &prices = plantDataHandler.getPrices();
 
-            for (size_t i = 0; i < size; i++)
+            file << "Datos de las plantas registradas: " << endl;
+            for (size_t i = 0; i < names.size(); ++i)
             {
-                file << "------------------------------------------------------\n";
-                file << "Plantas: " << pl.getname_plants()[i] << " CANTIDAD: " << pl.getquantityplants()[i] << endl;
-                file << "Precio: " << pl.getprice_plants()[i] * pl.getquantityplants()[i] << endl;
-                file << "------------------------------------------------------\n";
+                file << "Nombre: " << names[i] << endl;
+                file << "Cantidad: " << quantities[i] << endl;
+                file << "Precio: " << prices[i] << endl;
+                file << "-----------------------------" << endl;
             }
-            file.close();
+            cout << "Datos de las plantas guardados en 'Plantas.txt'" << endl;
         }
         else
         {
-            cout << "Error no se pudo guardar el archivo. ";
+            cout << "Error al abrir el archivo 'Plantas.txt'." << endl;
         }
     }
-};
 
-// Clase para guardar en el txt
-class LoadPlants
-{
-public:
-    static void loadfile(Plants &pl)
+    void loadPlants(PlantDataHandler &plantDataHandler) override
     {
         ifstream file("Plantas.txt");
         if (file.is_open())
@@ -120,60 +159,58 @@ public:
         }
         else
         {
-            cout << "Nose encrontro el archivo. " << endl;
+            cout << "No se pudo abrir el archivo 'Plantas.txt'." << endl;
         }
-        system("pause");
-        system("cls");
+    }
+
+    void modifyPlant(BasicPlantDataHandler &plantDataHandler) override
+    {
+        ModifyPlant(plantDataHandler);
     }
 };
 
-// Agrupar a las clase de los distintos datos de busqueda
-void BusquedaEnlazadaPlants()
+void LinkedSearchPlants()
 {
     char choice;
-    Plants pl;
-    ShowPlantas sp;
-    SavePlantas sap;
-    LoadPlants ld;
+    BasicPlantDataHandler plantDataHandler;
+    BasicPlantOperations plantOperations;
 
     do
     {
-        cin.ignore();
-        cout << "[1]REGRISTRO DE PLANTAS: \n";
-        cout << "[2]MOSTRAR PLANTAS: \n";
-        cout << "[3]ARCHIVOS GUARDADOS: \n";
-        cout << "[4]VOLVER AL SISTEMA: \n";
-        cout << "INGRESE UNA OPCION: \n\n";
-        cin.getline(&choice, 4);
+        cout << "[1] REGISTRO DE PLANTAS\n";
+        cout << "[2] MOSTRAR PLANTAS\n";
+        cout << "[3] GUARDAR ARCHIVO\n";
+        cout << "[4] MODIFICAR PLANTA\n";
+        cout << "[5] VOLVER AL SISTEMA\n";
+        cout << "INGRESE UNA OPCION: ";
+
+        cin >> choice;
 
         switch (choice)
         {
         case '1':
             system("cls");
-            pl.RegistryPlants();
+            plantOperations.registerPlant(plantDataHandler);
             break;
-
         case '2':
             system("cls");
-            sp.showfile(pl);
-            sap.savefile(pl);
-            system("pause");
-            system("cls");
+            plantOperations.showPlants(plantDataHandler);
             break;
-
         case '3':
             system("cls");
-            ld.loadfile(pl);
+            plantOperations.savePlants(plantDataHandler);
             break;
-
         case '4':
-            cout << "Volviendo al menu principal... ";
+            system("cls");
+            plantOperations.modifyPlant(plantDataHandler);
             break;
-
+        case '5':
+            system("cls");
+            cout << "Volviendo al menu principal..." << endl;
+            break;
         default:
-            cout << "Opcion no valida.";
-            system("pause");
+            cout << "Opcion no valida." << endl;
             break;
         }
-    } while (choice != '4');
+    } while (choice != '5');
 }

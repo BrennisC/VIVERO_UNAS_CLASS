@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <random>
+#include <algorithm>
 using namespace std;
 // Clase para generar contraseñas aleatorias
 class PasswordGenerator
@@ -10,16 +11,26 @@ class PasswordGenerator
 public:
     static string generatePassword(int length)
     {
-        static const string chars = "unas2024";
+        static const string palabraBase = "unasVivero";
+        static const string caracteresAleatorios = "0123456789";
         static random_device rd;
         static mt19937 gen(rd());
 
-        string password(length, '\0');
-        uniform_int_distribution<> dis(0, chars.size() - 1);
-        for (int i = 0; i < length; ++i)
+        string password;
+
+        // Agregar la palabra base
+        password += palabraBase;
+
+        // Agregar caracteres aleatorios para completar la longitud deseada
+        for (int i = palabraBase.size(); i < length; ++i)
         {
-            password[i] = chars[dis(gen)];
+            int index = uniform_int_distribution<>(0, caracteresAleatorios.size() - 1)(gen);
+            password += caracteresAleatorios[index];
         }
+
+        // Mezclar la contraseña
+        shuffle(password.begin() + palabraBase.size(), password.end(), gen);
+
         return password;
     }
 };

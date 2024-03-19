@@ -79,7 +79,7 @@ void opcion1()
     Sleep(3000);
     system("cls");
     BOLD;
-    BusquedaEnlazadaPlants();
+    LinkedSearchPlants();
 }
 
 /// @brief Funcion para ingresar a la class Abono
@@ -90,7 +90,7 @@ void opcion2()
     Sleep(3000);
     system("cls");
     BOLD;
-    BusquedaEnlazadaAbono();
+    LinkedSearchAbono();
 }
 
 /// @brief Funcion para ingresar a la class Client
@@ -146,7 +146,7 @@ int main()
             cout << "Ingrese su nombre: ";
             getline(cin, name);
 
-            string password = PasswordGenerator::generatePassword(4);
+            string password = PasswordGenerator::generatePassword(12);
 
             cout << "Su contraseña generada es: " << password << "\n";
             users.emplace_back(name, password);
