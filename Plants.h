@@ -96,14 +96,19 @@ public:
         int quantity;
         float price;
 
+        cin.ignore();
         cout << "Ingrese el nombre de la planta: ";
         getline(cin, name);
+
         cout << "Ingrese la cantidad de plantas de " << name << " que deseas: ";
         cin >> quantity;
+
         cout << "Ingrese el precio de la planta: ";
         cin >> price;
 
         plantDataHandler.addPlant(name, quantity, price);
+
+        system("cls");
     }
 
     void showPlants(const PlantDataHandler &plantDataHandler) const override
@@ -117,7 +122,7 @@ public:
         {
             cout << "Nombre: " << names[i] << endl;
             cout << "Cantidad: " << quantities[i] << endl;
-            cout << "Precio: " << prices[i] << endl;
+            cout << "Precio: " << prices[i] * quantities[i] << endl;
         }
         system("cls");
     }
@@ -137,14 +142,14 @@ public:
             {
                 file << "Nombre: " << names[i] << endl;
                 file << "Cantidad: " << quantities[i] << endl;
-                file << "Precio: " << prices[i] << endl;
+                file << "Precio: " << prices[i] * quantities[i] << endl;
                 file << "-----------------------------" << endl;
             }
-            cout << "Datos de las plantas guardados en 'FILEPLANTS'" << endl;
+            cout << "Datos de las plantas guardados en plantas " << endl;
         }
         else
         {
-            cout << "Error al abrir el archivo 'FILEPLANTS'." << endl;
+            cout << "Error al abrir el archivo plantas ." << endl;
         }
         system("cls");
     }
@@ -163,7 +168,7 @@ public:
         }
         else
         {
-            cout << "No se pudo abrir el archivo 'FILEPLANTS'." << endl;
+            cout << "No se pudo abrir el archivo plantas ." << endl;
         }
     }
 
@@ -196,24 +201,31 @@ void LinkedSearchPlants()
             system("cls");
             plantOperations.registerPlant(plantDataHandler);
             break;
+
         case '2':
             system("cls");
             plantOperations.showPlants(plantDataHandler);
             plantOperations.savePlants(plantDataHandler);
             break;
+
         case '3':
             system("cls");
             plantOperations.loadPlants();
             break;
+
         case '4':
             system("cls");
             plantOperations.modifyPlant(plantDataHandler);
             break;
+
         case '5':
             system("cls");
             cout << "Volviendo al menu principal..." << endl;
             break;
+
         default:
+
+            system("cls");
             cout << "Opcion no valida." << endl;
             break;
         }

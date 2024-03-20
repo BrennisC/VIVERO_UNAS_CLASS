@@ -71,6 +71,7 @@ void centrarTexto3(const string &texto)
     cout << BLUE << YELLOW << texto;
 }
 
+// Funcion para accede a las plantas
 void opcion1()
 {
 
@@ -82,7 +83,7 @@ void opcion1()
     LinkedSearchPlants();
 }
 
-/// @brief Funcion para ingresar a la class Abono
+// Funcion para ingresar a la class Abono
 void opcion2()
 {
     system("cls");
@@ -93,7 +94,7 @@ void opcion2()
     LinkedSearchAbono();
 }
 
-/// @brief Funcion para ingresar a la class Client
+// Funcion para ingresar a la class Client
 void opcion3()
 {
     system("cls");
@@ -104,12 +105,11 @@ void opcion3()
     LinkedSearchClient();
 }
 
-/// @warning Funcion para salir de sistema
+// Funcion para salir de sistema
 void exitSystem()
 {
     cout << RED << BOLD << "Saliendo de sistema...";
     Sleep(500);
-    cout << ". ";
     exit(0);
 }
 
@@ -142,10 +142,7 @@ int main()
             system("cls");
             string name;
 
-            cout << "Aplaste enter para continuar \n";
-
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
+            cin.clear();
             cout << "Ingrese su nombre: ";
             getline(cin, name);
 
@@ -165,10 +162,7 @@ int main()
             system("cls");
             string name, password;
 
-            cout << "Aplaste enter para continuar \n";
-
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
+            cin.clear();
             cout << "Ingrese su nombre: ";
             getline(cin, name);
             cout << "Ingrese su contraseña: ";
@@ -184,7 +178,10 @@ int main()
                     {
                         cout << "Inicio de sesión exitoso\n";
                         found = true;
+
+                        // Para acceder al menu de principal
                         menuVivero();
+
                         break;
                     }
                 }
@@ -203,6 +200,7 @@ int main()
         case '3':
             cout << "Salir";
             break;
+
         default:
             cout << "Opción no válida. Intente de nuevo.\n";
         }

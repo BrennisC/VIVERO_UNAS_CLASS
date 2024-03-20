@@ -171,10 +171,13 @@ void LinkedSearchAbono()
             system("cls");
             string nombre;
             float precio;
+
+            cin.ignore();
             cout << "Ingrese el nombre del abono: ";
             getline(cin, nombre);
             cout << "Ingrese el precio del abono: ";
             cin >> precio;
+
             abonoManager.registrarAbono(nombre, precio);
             break;
         }
@@ -183,18 +186,22 @@ void LinkedSearchAbono()
             abonoManager.showFertilizers();
             abonoRepository.saveFertilizers();
             break;
+
         case '3':
             system("cls");
             abonoManager.modifyFertilizers();
             break;
+
         case '4':
             system("cls");
             abonoRepository.loadFertilizers();
             break;
+
         case '5':
             system("cls");
             cout << "Volviendo al menu principal..." << endl;
             break;
+
         default:
             system("cls");
             cout << "Opción no válida. Inténtalo de nuevo." << endl;
