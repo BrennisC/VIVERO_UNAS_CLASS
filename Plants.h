@@ -6,9 +6,6 @@
 using namespace std;
 const string FILEPLANTS = "Plants.txt";
 
-class BasicPlantDataHandler;
-void ModifyPlant(BasicPlantDataHandler &p);
-
 class PlantDataHandler
 {
 public:
@@ -129,7 +126,7 @@ public:
 
     void savePlants(const PlantDataHandler &plantDataHandler) const override
     {
-        ofstream file(FILEPLANTS, ios::out);
+        ofstream file(FILEPLANTS, ios::out | ios::app);
 
         if (file.is_open())
         {

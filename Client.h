@@ -113,7 +113,7 @@ public:
         const vector<string> &names = clientDataHandler.getNameClient();
         const vector<string> &ids = clientDataHandler.getID();
 
-        ofstream file(FILECLIENT, ios::out);
+        ofstream file(FILECLIENT, ios::out | ios ::app);
         if (file.is_open())
         {
             file << "---------DATOS REGISTRATOS----------" << endl;

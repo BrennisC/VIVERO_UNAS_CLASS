@@ -56,7 +56,7 @@ class FileManager
 public:
     static void saveUsers(const vector<LoginUser> &users)
     {
-        ofstream file("Users.txt", ios::out);
+        ofstream file("Users.txt", ios::out | ios ::app);
         if (!file)
         {
             throw runtime_error("Error al abrir el archivo Users.txt");

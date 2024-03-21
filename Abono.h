@@ -39,7 +39,7 @@ private:
 public:
     void saveFertilizers() const
     {
-        ofstream archivo(FILENAME);
+        ofstream archivo(FILENAME, ios ::out | ios ::app);
         if (archivo.is_open())
         {
             for (const auto &abono : abonos)
