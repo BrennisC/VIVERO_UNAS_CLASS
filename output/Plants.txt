@@ -1,0 +1,15 @@
+Datos de las plantas registradas: 
+Nombre: flor
+Cantidad: 4
+Precio: 18
+-----------------------------
+Datos de las plantas registradas: 
+Nombre: flor
+Cantidad: 4
+Precio: 18
+-----------------------------
+Datos de las plantas registradas: 
+Nombre: flor
+Cantidad: 5
+Precio: 14.5
+-----------------------------

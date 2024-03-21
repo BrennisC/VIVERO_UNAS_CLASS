@@ -38,16 +38,16 @@ public:
 // Clase para manejar usuarios
 class LoginUser
 {
+private:
+    string name;
+    string password;
+
 public:
     LoginUser(const string &name, const string &password)
         : name(name), password(password) {}
 
     const string &getName() const { return name; }
     const string &getPassword() const { return password; }
-
-private:
-    string name;
-    string password;
 };
 
 // Clase para manejar operaciones de archivo
