@@ -70,7 +70,6 @@ void centrarTexto3(const string &texto)
     gotoxy(posicionX, obtenerPosicionVerticalCursor());
     cout << BLUE << YELLOW << texto;
 }
-
 // Funcion para accede a las plantas
 void opcion1()
 {
@@ -112,14 +111,15 @@ void exitSystem()
     Sleep(500);
     exit(0);
 }
-
-// Para poder accerder a las class
-void menuVivero();
-
-int main()
+class Main
 {
-    setlocale(LC_ALL, "es_ES.UTF-8"); // Establece el locale a español
-
+public:
+    Main() = default;
+    void run();
+    void ListaMenu();
+};
+void Main ::run()
+{
     vector<LoginUser> users;
     char choice;
 
@@ -179,9 +179,8 @@ int main()
                         cout << "Inicio de sesión exitoso\n";
                         found = true;
 
-                        // Para acceder al menu de principal
-                        menuVivero();
-
+                        Main ingresologin;
+                        ingresologin.ListaMenu();
                         break;
                     }
                 }
@@ -205,11 +204,10 @@ int main()
             cout << "Opción no válida. Intente de nuevo.\n";
         }
     } while (choice != '3');
-
-    return 0;
 }
 
-void menuVivero()
+// Para poder accerder a las class
+void Main ::ListaMenu()
 {
     char opc;
 
@@ -254,4 +252,11 @@ void menuVivero()
             break;
         }
     } while (opc != '4');
+}
+
+int main()
+{
+    setlocale(LC_ALL, "es_ES.UTF-8"); // Establece el locale a español
+    Main mainAcceso;
+    mainAcceso.run();
 }
