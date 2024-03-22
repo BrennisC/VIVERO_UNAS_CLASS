@@ -3,7 +3,7 @@
 #include <string>
 #include <iomanip>
 #include <fstream>
-
+#include "Expection.h"
 using namespace std;
 
 // Constantes para mensajes
@@ -25,6 +25,64 @@ public:
     vector<float> getPrecio() const { return precio; }
 
     friend void ModifyAbono(Abono &abonos);
+};
+
+// Manejador de operaciones de abonos
+class AbonoManager
+{
+private:
+    Abono &abonos;
+
+public:
+    AbonoManager(Abono abono) : abonos(abono) {}
+    void registrarAbono(Abono abono)
+    {
+        int quantity;
+
+        cout << "Ingrese la cantidad de abono: ";
+        cin >> quantity;
+
+        for (int i = 0; i < quantity; i++)
+        {
+            string name_abono;
+            float price_abono;
+
+            cin.ignore();
+            cout << "Ingrese el nombre del abono :  ";
+            getline(cin, name_abono);
+
+            cout << "Ingrese el " << name_abono << " : ";
+            cin >> price_abono;
+            try
+            {
+
+                cin >> price_abono;
+                if (price_abono < 0)
+                    throw logic_error("Precio no valido");
+                else
+                {
+                    cout << "El precio es valido ";
+                }
+            }
+            catch (const logic_error &e)
+            {
+                cerr << e.what() << endl;
+            }
+
+            abono.getNombre().push_back(name_abono);
+            abono.getPrecio().push_back(price_abono);
+        }
+    }
+
+    void showFertilizers(Abono abonos)
+    {
+        cout << "\n\tLista de fertilizantes" << endl;
+        cout << setw(25) << left << "Nombre" << setw(10) << right << "Cantidad" << endl;
+        for (int i = 0; i < abonos.getNombre().size(); i++)
+        {
+            cout << setw(25) << left << abonos.getNombre()[i] << setw(10) << right << abonos.getPrecio()[i] << endl;
+        }
+    }
 };
 
 // Repositorio de abonos
@@ -72,62 +130,6 @@ public:
     }
 };
 
-// Manejador de operaciones de abonos
-class AbonoManager
-{
-private:
-    Abono &abonos;
-
-public:
-    AbonoManager(Abono abono) : abonos(abono) {}
-    void registrarAbono(Abono abono)
-    {
-        int quantity;
-
-        cout << "Ingrese la cantidad de abono: ";
-        cin >> quantity;
-
-        for (int i = 0; i < quantity; i++)
-        {
-            string name_abono;
-            float price_abono;
-
-            cin.ignore();
-            cout << "Ingrese el nombre del abono :  ";
-            getline(cin, name_abono);
-
-            cout << "Ingrese el " << name_abono << " : ";
-            try
-            {
-                cin >> price_abono;
-                if (price_abono < 0)
-                    throw "Precio no valido";
-                else
-                {
-                    cout << "El precio es valido ";
-                }
-            }
-            catch (const char *e)
-            {
-                cerr << "Error " << e << endl;
-            }
-
-            abono.getNombre().push_back(name_abono);
-            abono.getPrecio().push_back(price_abono);
-        }
-    }
-
-    void showFertilizers(Abono abonos)
-    {
-        cout << "\n\tLista de fertilizantes" << endl;
-        cout << setw(25) << left << "Nombre" << setw(10) << right << "Cantidad" << endl;
-        for (int i = 0; i < abonos.getNombre().size(); i++)
-        {
-            cout << setw(25) << left << abonos.getNombre()[i] << setw(10) << right << abonos.getPrecio()[i] << endl;
-        }
-    }
-};
-
 void ModifyAbono(Abono &abonos)
 {
     string nombre;
@@ -147,6 +149,7 @@ void ModifyAbono(Abono &abonos)
     }
     cout << "El nombre del abono especificado no fue encontrado." << endl;
 }
+
 void LinkedSearchAbono()
 {
 

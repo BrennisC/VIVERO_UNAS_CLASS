@@ -1,7 +1,17 @@
 #include <iostream>
 #include <stdexcept>
 using namespace std;
-class MyException
+
+class MyExceptionRepository
+{
+public:
+    virtual int numberNegaty() = 0;
+    virtual float zeroDivision() = 0;
+    virtual float stringNot() = 0;
+    virtual ~MyExceptionRepository() {}
+};
+
+class ExceptionsInMemory : public MyExceptionRepository
 {
 private:
     string name_exception;
@@ -9,14 +19,25 @@ private:
     int line_number;
 
 public:
-    MyException(string n, float ve, int ln) : name_exception(n), value_exception(ve), line_number(ln) {}
-    string getName() const { return name_exception; }
-    float getValue() { return value_exception; }
-    int getLineNumber() const { return line_number; }
-};
+    ExceptionsInMemory(string ne, float ve, int ln) : name_exception(ne), value_exception(ve), line_number(ln) {}
 
-class MyExceptionRepository
-{
-public:
-    virtual void numberNegaty() = 0;
+    int numberNegaty()
+    {
+        cout << "Ingrese la cantidad que vas a registrar : ";
+        cin >> value_exception;
+
+        try
+        {
+            if (value_exception < 0)
+                throw logic_error("No es valido la cantidad es negativa ");
+            else
+            {
+                cout << "Puedes continuar ";
+            }
+        }
+        catch (const logic_error &e)
+        {
+            cerr << e.what() << '\n';
+        }
+    }
 };

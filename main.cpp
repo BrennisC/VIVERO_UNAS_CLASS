@@ -8,6 +8,7 @@
 #include "Plants.h"
 #include "Login.h"
 
+// Definiciones para cambiar el estilo y color del texto en la consola utilizando secuencias de escape ANSI
 #define RESET "\033[0m"
 #define RED "\033[31m"
 #define GREEN "\033[32m"
@@ -111,152 +112,151 @@ void exitSystem()
     Sleep(500);
     exit(0);
 }
-class Main
+
+// Clase principal para accerder  al menu del sistema
+class MainExcutar
 {
 public:
-    Main() = default;
-    void run();
-    void ListaMenu();
-};
-void Main ::run()
-{
-    vector<LoginUser> users;
-    char choice;
-
-    do
+    MainExcutar() = default;
+    void run()
     {
-        centrarTexto2("VIVERO UNAS ");
-        cout << BLUE << "\n¡Bienvenidos a nuestro vivero!" << RESET << endl;
-        cout << YELLOW << UNDERLINE << "Estamos aquí para ayudarte." << RESET << endl;
-        cout << RED << "¡No dudes en preguntarnos cualquier cosa!" << RESET << endl;
+        vector<LoginUser> users;
+        char choice;
 
-        centrarTexto1("1. Registrar nuevo usuario");
-        centrarTexto1("2. Iniciar sesión        ");
-        centrarTexto1("3. Salir                  ");
-        centrarTexto3("Ingrese su opción: ");
-        cin.getline(&choice, '3');
-        switch (choice)
+        do
         {
-        case '1':
-        {
-            system("cls");
-            string name;
+            centrarTexto2("VIVERO UNAS ");
+            cout << BLUE << "\n¡Bienvenidos a nuestro vivero!" << RESET << endl;
+            cout << YELLOW << UNDERLINE << "Estamos aquí para ayudarte." << RESET << endl;
+            cout << RED << "¡No dudes en preguntarnos cualquier cosa!" << RESET << endl;
 
-            cin.clear();
-            cout << "Ingrese su nombre: ";
-            getline(cin, name);
-
-            string password = PasswordGenerator::generatePassword(12);
-
-            cout << "Su contraseña generada es: " << password << "\n";
-            users.emplace_back(name, password);
-            FileManager::saveUsers(users);
-
-            Sleep(5000);
-            getchar();
-            system("cls");
-            break;
-        }
-        case '2':
-        {
-            system("cls");
-            string name, password;
-
-            cin.clear();
-            cout << "Ingrese su nombre: ";
-            getline(cin, name);
-            cout << "Ingrese su contraseña: ";
-            getline(cin, password);
-
-            try
+            centrarTexto1("1. Registrar nuevo usuario");
+            centrarTexto1("2. Iniciar sesión        ");
+            centrarTexto1("3. Salir                  ");
+            centrarTexto3("Ingrese su opción: ");
+            cin.getline(&choice, '3');
+            switch (choice)
             {
-                auto userList = FileManager::loadUsers();
-                bool found = false;
-                for (const auto &user : userList)
-                {
-                    if (user.getName() == name && user.getPassword() == password)
-                    {
-                        cout << "Inicio de sesión exitoso\n";
-                        found = true;
+            case '1':
+            {
+                system("cls");
+                string name;
 
-                        Main ingresologin;
-                        ingresologin.ListaMenu();
-                        break;
+                cin.clear();
+                cout << "Ingrese su nombre: ";
+                getline(cin, name);
+
+                string password = PasswordGenerator::generatePassword(12);
+
+                cout << "Su contraseña generada es: " << password << "\n";
+                users.emplace_back(name, password);
+                FileManager::saveUsers(users);
+
+                Sleep(5000);
+                getchar();
+                system("cls");
+                break;
+            }
+            case '2':
+            {
+                system("cls");
+                string name, password;
+
+                cin.clear();
+                cout << "Ingrese su nombre: ";
+                getline(cin, name);
+                cout << "Ingrese su contraseña: ";
+                getline(cin, password);
+
+                try
+                {
+                    auto userList = FileManager::loadUsers();
+                    bool found = false;
+                    for (const auto &user : userList)
+                    {
+                        if (user.getName() == name && user.getPassword() == password)
+                        {
+                            cout << "Inicio de sesión exitoso\n";
+                            found = true;
+
+                            MainExcutar ingresologin;
+                            ingresologin.ListaMenu();
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        cout << "Nombre de usuario o contraseña incorrectos\n";
                     }
                 }
-                if (!found)
+                catch (const exception &e)
                 {
-                    cout << "Nombre de usuario o contraseña incorrectos\n";
+                    cerr << "Error: " << e.what() << "\n";
                 }
+
+                break;
             }
-            catch (const exception &e)
-            {
-                cerr << "Error: " << e.what() << "\n";
+            case '3':
+                cout << "Salir";
+                break;
+
+            default:
+                cout << "Opción no válida. Intente de nuevo.\n";
             }
-
-            break;
-        }
-        case '3':
-            cout << "Salir";
-            break;
-
-        default:
-            cout << "Opción no válida. Intente de nuevo.\n";
-        }
-    } while (choice != '3');
-}
-
-// Para poder accerder a las class
-void Main ::ListaMenu()
-{
-    char opc;
-
-    do
+        } while (choice != '3');
+    }
+    void ListaMenu()
     {
-        system("cls");
-        centrarTexto2("     MENU DE OPCIONES         \n\n");
-        centrarTexto1(" [1] MENU DE PLANTA       ");
-        centrarTexto1(" [2] MENU DE ABONO        ");
-        centrarTexto1(" [3] MENU DE CLIENTE      ");
-        centrarTexto1(" [4] SALIR MENU PRINCIPAL ");
-        cout << endl;
-        centrarTexto3("Ingrese su opcion: ");
-        cin >> opc;
+        char opc;
 
-        switch (opc)
+        do
         {
-        case '1':
             system("cls");
-            opcion1();
-            break;
+            centrarTexto2("     MENU DE OPCIONES         \n\n");
+            centrarTexto1(" [1] MENU DE PLANTA       ");
+            centrarTexto1(" [2] MENU DE ABONO        ");
+            centrarTexto1(" [3] MENU DE CLIENTE      ");
+            centrarTexto1(" [4] SALIR MENU PRINCIPAL ");
+            cout << endl;
+            centrarTexto3("Ingrese su opcion: ");
+            cin >> opc;
 
-        case '2':
-            system("cls");
-            opcion2();
-            break;
+            switch (opc)
+            {
+            case '1':
+                system("cls");
+                opcion1();
+                break;
 
-        case '3':
-            system("cls");
-            opcion3();
-            break;
+            case '2':
+                system("cls");
+                opcion2();
+                break;
 
-        case '4':
-            system("cls");
-            exitSystem();
-            break;
+            case '3':
+                system("cls");
+                opcion3();
+                break;
 
-        default:
-            system("cls");
-            cout << "Opcion no valida" << endl;
-            system("pause");
-            break;
-        }
-    } while (opc != '4');
-}
+            case '4':
+                system("cls");
+                exitSystem();
+                break;
+
+            default:
+                system("cls");
+                cout << "Opcion no valida" << endl;
+                system("pause");
+                break;
+            }
+        } while (opc != '4');
+    }
+};
 
 int main()
 {
     setlocale(LC_ALL, "es_ES.UTF-8"); // Establece el locale a español
-    Main mainAcceso;
+
+    MainExcutar mainAcceso;
     mainAcceso.run();
 }
