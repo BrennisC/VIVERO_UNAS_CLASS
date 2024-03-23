@@ -3,7 +3,6 @@
 #include <string>
 #include <iomanip>
 #include <fstream>
-#include "Expection.h"
 using namespace std;
 
 // Constantes para mensajes
