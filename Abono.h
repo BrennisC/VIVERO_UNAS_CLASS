@@ -43,10 +43,9 @@ class AbonoManager : public AbonoOperations
 {
 private:
     vector<Abono> &abonos;
-    AbonoRepository &repository;
 
 public:
-    AbonoManager(vector<Abono> &ab, AbonoRepository &repo) : abonos(ab), repository(repo) {}
+    AbonoManager(vector<Abono> &ab) : abonos(ab) {}
 
     void registrarAbono() override
     {
@@ -68,6 +67,8 @@ public:
 
             abonos.push_back(Abono(name_abono, price_abono));
         }
+
+        system("cls");
     }
 
     void mostrarAbonos() const override
@@ -78,6 +79,7 @@ public:
         {
             cout << setw(25) << left << abono.getNombre() << setw(10) << right << abono.getPrecio() << endl;
         }
+        system("pause > null");
     }
 };
 
@@ -103,6 +105,8 @@ public:
         {
             cerr << "Error al abrir el archivo Abono.txt" << endl;
         }
+        system("pause > null");
+        system("cls");
     }
 
     vector<Abono> loadFertilizers() const override
@@ -124,6 +128,7 @@ public:
             cerr << "No se pudo abrir el archivo Abono.txt" << endl;
         }
         return abonos;
+        system("cls");
     }
 };
 
@@ -131,7 +136,7 @@ void LinkedSearchAbono()
 {
     vector<Abono> abonos;
     FileAbonoRepository repository;
-    AbonoManager abonoManager(abonos, repository);
+    AbonoManager abonoManager(abonos);
 
     char opcion;
     do

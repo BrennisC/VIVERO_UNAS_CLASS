@@ -1,0 +1,12 @@
+Registro de abono 
+Nombre del abono: jj
+Precio del abono: 45.6
+----------------------------------------
+Registro de abono 
+Nombre del abono: ji
+Precio del abono: 45.6
+----------------------------------------
+Registro de abono 
+Nombre del abono: hh
+Precio del abono: 89.3
+----------------------------------------

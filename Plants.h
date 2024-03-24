@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 const string FILEPLANTS = "Plants.txt";
@@ -60,6 +61,8 @@ public:
             plantDataHandler.getNames().push_back(name_plant);
             plantDataHandler.getQuantities().push_back(quantity);
             plantDataHandler.getPrices().push_back(price);
+
+            cout << "\n";
         }
     }
 
@@ -67,11 +70,12 @@ public:
     {
         cout << "Datos de las plantas registradas: " << endl;
         size_t size = plantDataHandler.getNames().size();
+
+        cout << setw(25) << left << "Nombre" << setw(5) << right << "Cantidad" << setw(25) << left << setprecision(2) << "Precio " << endl;
+
         for (size_t i = 0; i < size; ++i)
         {
-            cout << "Nombre: " << plantDataHandler.getNames()[i] << endl;
-            cout << "Cantidad: " << plantDataHandler.getQuantities()[i] << endl;
-            cout << "Precio: " << plantDataHandler.getQuantities()[i] * plantDataHandler.getPrices()[i] << endl;
+            cout << setw(25) << left << plantDataHandler.getNames()[i] << setw(10) << right << plantDataHandler.getQuantities()[i] << setw(25) << left << setprecision(2) << plantDataHandler.getQuantities()[i] * plantDataHandler.getPrices()[i] << endl;
         }
 
         system("pause>null");
@@ -117,6 +121,8 @@ public:
         {
             cout << "No se pudo abrir el archivo plantas ." << endl;
         }
+        system("pause > null");
+        system("cls");
     }
 };
 

@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 const string FILECLIENT = "Client.txt";
@@ -64,6 +65,8 @@ void ModifyClient(BasicClientDataHandler &c)
         }
     }
     cout << "No se encontro el nombre y/o DNI ingresado." << endl;
+
+    system("cls");
 }
 
 class ClientOperations
@@ -97,11 +100,12 @@ public:
     {
         const vector<string> &names = clientDataHandler.getNameClient();
         const vector<string> &ids = clientDataHandler.getID();
-
+        cout << setw(25) << left << "Nombre" << setw(10) << right << "DNI" << endl;
         cout << "Datos registrados de los clientes: " << endl;
+
         for (size_t i = 0; i < names.size(); ++i)
         {
-            cout << "CLIENTE: " << names[i] << " DNI : " << ids[i] << endl;
+            cout << setw(25) << left << names[i] << setw(10) << right << ids[i] << endl;
             cout << "-----------------------------" << endl;
         }
         system("pause/null");
@@ -117,9 +121,10 @@ public:
         if (file.is_open())
         {
             file << "---------DATOS REGISTRATOS----------" << endl;
+            file << setw(25) << left << "Nombre : " << setw(10) << right << "DNI" << endl;
             for (size_t i = 0; i < names.size(); ++i)
             {
-                file << "NOMBRE " << names[i] << " ID: " << ids[i] << endl;
+                file << setw(25) << left << names[i] << setw(10) << right << ids[i] << endl;
                 file << "--------------------------" << endl;
             }
             file.close();
@@ -129,6 +134,7 @@ public:
         {
             cout << "No se pudo abrir el archivo. " << endl;
         }
+        system("cls");
     }
 
     void load() override
@@ -147,6 +153,9 @@ public:
         {
             cout << "No se pudo abrir el archivo de cliente.\n";
         }
+
+        system("puase > null");
+        system("cls");
     }
 
     void modify(BasicClientDataHandler &clientDataHandler) override

@@ -112,6 +112,7 @@ void exitSystem()
     Sleep(500);
     exit(0);
 }
+
 class ListMenuStart
 {
 public:
@@ -163,6 +164,7 @@ public:
         } while (opc != '4');
     }
 };
+
 // Clase principal para accerder  al menu del sistema
 class StartSesion
 {
