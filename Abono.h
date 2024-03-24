@@ -128,7 +128,7 @@ public:
         {
             cerr << "No se pudo abrir el archivo Abono.txt" << endl;
         }
-        system("puase > null");
+        system("pause > null");
         system("cls");
     }
 };

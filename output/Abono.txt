@@ -18,3 +18,7 @@ Registro de abono
 Nombre del abono: ko
 Precio del abono: 35.4
 ----------------------------------------
+Registro de abono 
+Nombre del abono: cacao
+Precio del abono: 45.6
+----------------------------------------
