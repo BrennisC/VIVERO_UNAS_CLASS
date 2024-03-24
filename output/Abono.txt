@@ -10,3 +10,11 @@ Registro de abono
 Nombre del abono: hh
 Precio del abono: 89.3
 ----------------------------------------
+Registro de abono 
+Nombre del abono: cacao
+Precio del abono: 23
+----------------------------------------
+Registro de abono 
+Nombre del abono: ko
+Precio del abono: 35.4
+----------------------------------------

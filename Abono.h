@@ -66,6 +66,7 @@ public:
             cin >> price_abono;
 
             abonos.push_back(Abono(name_abono, price_abono));
+            cout << "\n";
         }
 
         system("cls");
@@ -127,6 +128,7 @@ public:
         {
             cerr << "No se pudo abrir el archivo Abono.txt" << endl;
         }
+        system("puase > null");
         system("cls");
     }
 };

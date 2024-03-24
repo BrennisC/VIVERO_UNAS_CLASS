@@ -245,7 +245,7 @@ public:
                 {
                     cerr << "Error: " << e.what() << "\n";
                 }
-
+                system("cls");
                 break;
             }
             case '3':
