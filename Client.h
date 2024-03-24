@@ -202,7 +202,6 @@ void LinkedSearchClient()
             break;
 
         default:
-
             cout << "Opcion no valida. ";
             break;
         }

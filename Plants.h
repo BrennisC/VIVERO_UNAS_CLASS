@@ -31,11 +31,10 @@ public:
     virtual void showPlants(BasicPlantDataHandler &plantbasic) = 0;
     virtual void savePlants(BasicPlantDataHandler &plantbasic) = 0;
     virtual void loadPlants() = 0;
-    virtual void modifyPlant() = 0;
     virtual ~PlantOperations() {}
 };
 
-class BasicPlantOperations : public PlantOperations, public BasicPlantDataHandler
+class BasicPlantOperations : public PlantOperations
 {
 public:
     void registerPlant(BasicPlantDataHandler &plantDataHandler) override
@@ -50,7 +49,7 @@ public:
             int quantity;
             float price;
             cout << "Ingrese el nombre de la planta: ";
-            getline(cin, name_plant);
+            cin >> name_plant;
 
             cout << "Ingrese la cantidad de " << name_plant << " : ";
             cin >> quantity;
@@ -127,16 +126,16 @@ void ModifyPlant(BasicPlantDataHandler &p)
     size_t index;
     cin >> index;
 
-    if (index < p.names.size())
+    if (index < p.getNames().size())
     {
         cout << "Ingrese el nuevo nombre de la planta: ";
-        getline(cin, p.names[index]);
+        cin >> p.getNames()[index];
 
         cout << "Ingrese la nueva cantidad de la planta: ";
-        cin >> p.quantities[index];
+        cin >> p.getQuantities()[index];
 
         cout << "Ingrese el nuevo precio de la planta: ";
-        cin >> p.prices[index];
+        cin >> p.getPrices()[index];
     }
     else
     {
@@ -144,10 +143,11 @@ void ModifyPlant(BasicPlantDataHandler &p)
     }
     system("cls");
 }
+
 void LinkedSearchPlants()
 {
     char choice;
-    BasicPlantOperations *basicPlantOperations;
+    BasicPlantOperations basicPlantOperations;
     BasicPlantDataHandler plantDataHandler;
 
     do
@@ -165,18 +165,18 @@ void LinkedSearchPlants()
         {
         case '1':
             system("cls");
-            basicPlantOperations->registerPlant(plantDataHandler);
+            basicPlantOperations.registerPlant(plantDataHandler);
             break;
 
         case '2':
             system("cls");
-            basicPlantOperations->showPlants(plantDataHandler);
-            basicPlantOperations->savePlants(plantDataHandler);
+            basicPlantOperations.showPlants(plantDataHandler);
+            basicPlantOperations.savePlants(plantDataHandler);
             break;
 
         case '3':
             system("cls");
-            basicPlantOperations->loadPlants();
+            basicPlantOperations.loadPlants();
             break;
 
         case '4':
