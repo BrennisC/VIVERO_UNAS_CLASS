@@ -13,3 +13,21 @@ Nombre: flor
 Cantidad: 5
 Precio: 14.5
 -----------------------------
+Datos de las plantas registradas: 
+Nombre: flor
+Cantidad: 23
+Precio: 282.9
+-----------------------------
+Nombre: peregil
+Cantidad: 14
+Precio: 168
+-----------------------------
+Datos de las plantas registradas: 
+Nombre: flor
+Cantidad: 23
+Precio: 282.9
+-----------------------------
+Nombre: peregil
+Cantidad: 14
+Precio: 168
+-----------------------------

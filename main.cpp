@@ -112,13 +112,63 @@ void exitSystem()
     Sleep(500);
     exit(0);
 }
-
-// Clase principal para accerder  al menu del sistema
-class MainExcutar
+class ListMenuStart
 {
 public:
-    MainExcutar() = default;
-    void run()
+    ListMenuStart() = default;
+    void ListMenu()
+    {
+        char opc;
+
+        do
+        {
+            system("cls");
+            centrarTexto2("     MENU DE OPCIONES         \n\n");
+            centrarTexto1(" [1] MENU DE PLANTA       ");
+            centrarTexto1(" [2] MENU DE ABONO        ");
+            centrarTexto1(" [3] MENU DE CLIENTE      ");
+            centrarTexto1(" [4] SALIR MENU PRINCIPAL ");
+            cout << endl;
+            centrarTexto3("Ingrese su opcion: ");
+            cin >> opc;
+
+            switch (opc)
+            {
+            case '1':
+                system("cls");
+                opcion1();
+                break;
+
+            case '2':
+                system("cls");
+                opcion2();
+                break;
+
+            case '3':
+                system("cls");
+                opcion3();
+                break;
+
+            case '4':
+                system("cls");
+                exitSystem();
+                break;
+
+            default:
+                system("cls");
+                cout << "Opcion no valida" << endl;
+                system("pause");
+                break;
+            }
+        } while (opc != '4');
+    }
+};
+// Clase principal para accerder  al menu del sistema
+class StartSesion
+{
+public:
+    StartSesion() = default;
+    void StartInterfaz()
     {
         vector<LoginUser> users;
         char choice;
@@ -179,8 +229,8 @@ public:
                             cout << "Inicio de sesión exitoso\n";
                             found = true;
 
-                            MainExcutar ingresologin;
-                            ingresologin.ListaMenu();
+                            ListMenuStart list;
+                            list.ListMenu();
                             break;
                         }
                     }
@@ -205,58 +255,12 @@ public:
             }
         } while (choice != '3');
     }
-    void ListaMenu()
-    {
-        char opc;
-
-        do
-        {
-            system("cls");
-            centrarTexto2("     MENU DE OPCIONES         \n\n");
-            centrarTexto1(" [1] MENU DE PLANTA       ");
-            centrarTexto1(" [2] MENU DE ABONO        ");
-            centrarTexto1(" [3] MENU DE CLIENTE      ");
-            centrarTexto1(" [4] SALIR MENU PRINCIPAL ");
-            cout << endl;
-            centrarTexto3("Ingrese su opcion: ");
-            cin >> opc;
-
-            switch (opc)
-            {
-            case '1':
-                system("cls");
-                opcion1();
-                break;
-
-            case '2':
-                system("cls");
-                opcion2();
-                break;
-
-            case '3':
-                system("cls");
-                opcion3();
-                break;
-
-            case '4':
-                system("cls");
-                exitSystem();
-                break;
-
-            default:
-                system("cls");
-                cout << "Opcion no valida" << endl;
-                system("pause");
-                break;
-            }
-        } while (opc != '4');
-    }
 };
 
 int main()
 {
     setlocale(LC_ALL, "es_ES.UTF-8"); // Establece el locale a español
 
-    MainExcutar mainAcceso;
-    mainAcceso.run();
+    StartSesion ss;
+    ss.StartInterfaz();
 }
