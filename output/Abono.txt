@@ -22,3 +22,7 @@ Registro de abono
 Nombre del abono: cacao
 Precio del abono: 45.6
 ----------------------------------------
+Registro de abono 
+Nombre del abono: dd
+Precio del abono: 23
+----------------------------------------
