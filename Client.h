@@ -100,8 +100,8 @@ public:
     {
         const vector<string> &names = clientDataHandler.getNameClient();
         const vector<string> &ids = clientDataHandler.getID();
-        cout << setw(25) << left << "Nombre" << setw(10) << right << "DNI" << endl;
         cout << "Datos registrados de los clientes: " << endl;
+        cout << setw(25) << left << "Nombre" << setw(10) << right << "DNI" << endl;
 
         for (size_t i = 0; i < names.size(); ++i)
         {
@@ -154,7 +154,7 @@ public:
             cout << "No se pudo abrir el archivo de cliente.\n";
         }
 
-        system("puase > null");
+        system("pause > null");
         system("cls");
     }
 

@@ -34,7 +34,7 @@ class AbonoRepository
 {
 public:
     virtual void saveFertilizers(const vector<Abono> &abonos) const = 0;
-    virtual vector<Abono> loadFertilizers() const = 0;
+    virtual void loadFertilizers() const = 0;
     virtual ~AbonoRepository() {}
 };
 
@@ -109,9 +109,9 @@ public:
         system("cls");
     }
 
-    vector<Abono> loadFertilizers() const override
+    void loadFertilizers() const override
     {
-        vector<Abono> abonos;
+
         ifstream archivo("Abono.txt");
         if (archivo.is_open())
         {
@@ -127,7 +127,6 @@ public:
         {
             cerr << "No se pudo abrir el archivo Abono.txt" << endl;
         }
-        return abonos;
         system("cls");
     }
 };

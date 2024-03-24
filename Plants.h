@@ -64,6 +64,7 @@ public:
 
             cout << "\n";
         }
+        system("cls");
     }
 
     void showPlants(BasicPlantDataHandler &plantDataHandler) override
@@ -75,7 +76,7 @@ public:
 
         for (size_t i = 0; i < size; ++i)
         {
-            cout << setw(25) << left << plantDataHandler.getNames()[i] << setw(10) << right << plantDataHandler.getQuantities()[i] << setw(25) << left << setprecision(2) << plantDataHandler.getQuantities()[i] * plantDataHandler.getPrices()[i] << endl;
+            cout << setw(25) << left << plantDataHandler.getNames()[i] << setw(10) << right << plantDataHandler.getQuantities()[i] << setw(15) << left << setprecision(2) << plantDataHandler.getQuantities()[i] * plantDataHandler.getPrices()[i] << endl;
         }
 
         system("pause>null");
