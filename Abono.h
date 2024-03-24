@@ -5,7 +5,7 @@
 #include <fstream>
 
 using namespace std;
-
+const string FILEABONO = "Abono.txt";
 // Clase para representar un abono
 class Abono
 {
@@ -90,7 +90,7 @@ class FileAbonoRepository : public AbonoRepository
 public:
     void saveFertilizers(const vector<Abono> &abonos) const override
     {
-        ofstream archivo("Abono.txt", ios::out | ios::app);
+        ofstream archivo(FILEABONO, ios::out | ios::app);
         if (archivo.is_open())
         {
             for (const auto &abono : abonos)
@@ -113,7 +113,7 @@ public:
     void loadFertilizers() const override
     {
 
-        ifstream archivo("Abono.txt");
+        ifstream archivo(FILEABONO);
         if (archivo.is_open())
         {
             string line;

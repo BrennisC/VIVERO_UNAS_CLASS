@@ -1,4 +1,0 @@
----------DATOS REGISTRATOS----------
-Nombre :                        DNI
-brennis                    32432455
---------------------------

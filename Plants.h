@@ -72,11 +72,11 @@ public:
         cout << "Datos de las plantas registradas: " << endl;
         size_t size = plantDataHandler.getNames().size();
 
-        cout << setw(25) << left << "Nombre" << setw(5) << right << "Cantidad" << setw(25) << left << setprecision(2) << "Precio " << endl;
+        cout << setw(25) << left << "Nombre" << setw(20) << left << "Cantidad" << setw(15) << left << setprecision(2) << "Precio " << endl;
 
         for (size_t i = 0; i < size; ++i)
         {
-            cout << setw(25) << left << plantDataHandler.getNames()[i] << setw(10) << right << plantDataHandler.getQuantities()[i] << setw(15) << left << setprecision(2) << plantDataHandler.getQuantities()[i] * plantDataHandler.getPrices()[i] << endl;
+            cout << setw(25) << left << plantDataHandler.getNames()[i] << setw(20) << left << setprecision(2) << plantDataHandler.getQuantities()[i] << setw(15) << left << plantDataHandler.getQuantities()[i] * plantDataHandler.getPrices()[i] << endl;
         }
 
         system("pause>null");
