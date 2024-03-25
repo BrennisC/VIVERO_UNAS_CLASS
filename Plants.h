@@ -49,6 +49,8 @@ public:
             string name_plant;
             int quantity;
             float price;
+
+            cin.ignore();
             cout << "Ingrese el nombre de la planta: ";
             getline(cin, name_plant);
 

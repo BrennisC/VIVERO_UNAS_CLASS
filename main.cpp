@@ -79,6 +79,7 @@ void opcion1()
     centrarTexto1("Ha seleccionado la Opcion 1.");
     Sleep(3000);
     system("cls");
+
     BOLD;
     LinkedSearchPlants();
 }
@@ -89,6 +90,7 @@ void opcion2()
     system("cls");
     centrarTexto1("Ha seleccionado la Opcion 2.");
     Sleep(3000);
+
     system("cls");
     BOLD;
     LinkedSearchAbono();
@@ -100,6 +102,7 @@ void opcion3()
     system("cls");
     centrarTexto1("Ha seleccionado la Opcion 3.");
     Sleep(3000);
+
     system("cls");
     BOLD;
     LinkedSearchClient();
