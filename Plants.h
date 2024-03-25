@@ -40,17 +40,17 @@ class BasicPlantOperations : public PlantOperations
 public:
     void registerPlant(BasicPlantDataHandler &plantDataHandler) override
     {
-        int x;
+        int quantity;
         cout << "Ingresa el numero de plantas: ";
-        cin >> x;
+        cin >> quantity;
 
-        for (int i = 0; i < x; i++)
+        for (int i = 0; i < quantity; i++)
         {
             string name_plant;
             int quantity;
             float price;
             cout << "Ingrese el nombre de la planta: ";
-            cin >> name_plant;
+            getline(cin, name_plant);
 
             cout << "Ingrese la cantidad de " << name_plant << " : ";
             cin >> quantity;
@@ -136,7 +136,7 @@ void ModifyPlant(BasicPlantDataHandler &p)
     if (index < p.getNames().size())
     {
         cout << "Ingrese el nuevo nombre de la planta: ";
-        cin >> p.getNames()[index];
+        getline(cin, p.getNames()[index]);
 
         cout << "Ingrese la nueva cantidad de la planta: ";
         cin >> p.getQuantities()[index];
