@@ -1,0 +1,9 @@
+Datos de las plantas registradas: 
+Nombre: flor
+Cantidad: 45
+Precio: 117
+-----------------------------
+Nombre: orquideas
+Cantidad: 12
+Precio: 67.2
+-----------------------------
